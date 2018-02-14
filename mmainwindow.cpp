@@ -39,6 +39,6 @@ void mMainWindow::randomSecondName() {
 
     QMessageBox msgBox;
     msgBox.setText(pastm->data(pastm->index(rand()%pastm->rowCount(),1)).toString());
-    pastm->data(pastm->index(rand()%pastm->rowCount(),0) - 1).toString();
+    pastm->data(pastm->index(rand()%pastm->rowCount()-1,0)).toString();
     msgBox.exec();
 }
