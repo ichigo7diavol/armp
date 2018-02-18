@@ -1,7 +1,8 @@
 #include "mmainwindow.h"
+#include "mentrydialog.h"
 #include <QApplication>
 #include <QtSql>
-
+/* Функцция тестового подкючения
 bool dbConnect () {
 
     static QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
@@ -45,15 +46,19 @@ bool dbConnect () {
 
     return 1;
 }
+*/
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    dbConnect();
+    //dbConnect();
 
+    mEntryDialog * c = new mEntryDialog();
+    c->show();
     mMainWindow w;
-    w.show();
+    QObject::connect(c, mEntryDialog::dbConnected,
+                     &w, mMainWindow::show);
 
     return a.exec();
 }

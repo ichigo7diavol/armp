@@ -25,13 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mmainwindow.cpp
+        mmainwindow.cpp \
+    mentrydialog.cpp
 
 HEADERS += \
-        mmainwindow.h
+        mmainwindow.h \
+    mentrydialog.h \
+    precompileconstants.h
 
 FORMS += \
-        mmainwindow.ui
+        mmainwindow.ui \
+    mentrydialog.ui
 
 INCLUDEPATH += "C:\Program Files (x86)\PostgreSQL\10\include"
 LIBS += "-LC:\Program Files (x86)\PostgreSQL\10\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32

@@ -6,10 +6,8 @@
 #include <QDebug>
 #include <QMdiSubWindow>
 #include <QtSql>
-#include <QTableView>
-#include <random>
-#include <ctime>
 #include <QMessageBox>
+#include <QStringList>
 
 namespace Ui {
 class mMainWindow;
@@ -26,13 +24,8 @@ public:
 private:
     Ui::mMainWindow *ui;
 
-    QSqlTableModel * pastm; // ptr to ab sql table model
-    QTableView * patv;      // ptr to ab table view
-    QMainWindow * pasw;     //ptr to abiturient sub window
-
 public slots:
-    void openAbiturientsTable () {};
-    void randomSecondName ();
+    void openAbiturientsTable () {}
 };
 
 #endif // MMAINWINDOW_H
