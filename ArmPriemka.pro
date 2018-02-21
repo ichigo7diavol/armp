@@ -26,16 +26,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mmainwindow.cpp \
-    mentrydialog.cpp
+    mentrydialog.cpp \
+    mabiturtablewindow.cpp \
+    maddabiturdialog.cpp
 
 HEADERS += \
         mmainwindow.h \
     mentrydialog.h \
-    precompileconstants.h
+    precompileconstants.h \
+    mabiturtablewindow.h \
+    maddabiturdialog.h
 
 FORMS += \
         mmainwindow.ui \
-    mentrydialog.ui
+    mentrydialog.ui \
+    mabiturtablewindow.ui \
+    maddabiturdialog.ui
 
 INCLUDEPATH += "C:\Program Files (x86)\PostgreSQL\10\include"
 LIBS += "-LC:\Program Files (x86)\PostgreSQL\10\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32

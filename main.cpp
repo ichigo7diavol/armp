@@ -54,11 +54,11 @@ int main(int argc, char *argv[])
 
     //dbConnect();
 
-    mEntryDialog * c = new mEntryDialog();
-    c->show();
+    //mEntryDialog * c = new mEntryDialog();
+    //c->show();
     mMainWindow w;
-    QObject::connect(c, mEntryDialog::dbConnected,
-                     &w, mMainWindow::show);
-
+    //QObject::connect(c, mEntryDialog::dbConnected,
+    //                 &w, mMainWindow::show);
+    w.show();
     return a.exec();
 }
