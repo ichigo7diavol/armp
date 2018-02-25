@@ -28,23 +28,27 @@ SOURCES += \
         mmainwindow.cpp \
     mentrydialog.cpp \
     mabiturtablewindow.cpp \
-    maddabiturdialog.cpp
+    maddabiturdialog.cpp \
+    maddabiturdocsdialog.cpp
 
 HEADERS += \
         mmainwindow.h \
     mentrydialog.h \
     precompileconstants.h \
     mabiturtablewindow.h \
-    maddabiturdialog.h
+    maddabiturdialog.h \
+    maddabiturdocsdialog.h
 
 FORMS += \
         mmainwindow.ui \
     mentrydialog.ui \
     mabiturtablewindow.ui \
-    maddabiturdialog.ui
+    maddabiturdialog.ui \
+    maddabiturdocsdialog.ui
 
-INCLUDEPATH += "C:\Program Files (x86)\PostgreSQL\10\include"
-LIBS += "-LC:\Program Files (x86)\PostgreSQL\10\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32
+INCLUDEPATH += "C:\include"
+LIBS += "-LC:\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32
 
 RESOURCES += \
     assets.qrc
+#

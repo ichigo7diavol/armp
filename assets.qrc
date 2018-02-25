@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/icons">
         <file>TablesheetIcon32.png</file>
+        <file>E.png</file>
+        <file>D.png</file>
+        <file>C.png</file>
+        <file>A.png</file>
     </qresource>
 </RCC>

@@ -57,6 +57,7 @@ mMainWindow::mMainWindow(QWidget *parent) :
 
     pm = ui->menuBar->addMenu("Справочники");
     pa = new QAction("Абитуриенты");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openAbiturientsTable()));
     lpa << pa;
     pa = new QAction("Учреждение");
     lpa << pa;
@@ -97,6 +98,24 @@ mMainWindow::mMainWindow(QWidget *parent) :
 
     pm->addActions(lpa);
     lpa.clear();
+}
+
+void mMainWindow::openAbiturientsTable() {
+
+    if (!findChild<mAbiturTableWindow*>(QString("mAbiturTableWindow"))) {
+
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new mAbiturTableWindow());
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Абитуриенты"));
+
+        tmp->show();
+
+        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "mAbiturTableWindow is already opened!";
+    }
 }
 
 mMainWindow::~mMainWindow()

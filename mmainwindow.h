@@ -9,6 +9,8 @@
 #include <QMessageBox>
 #include <QStringList>
 
+#include "mabiturtablewindow.h"
+
 namespace Ui {
 class mMainWindow;
 }
@@ -22,10 +24,10 @@ public:
     ~mMainWindow();
 
 private:
-    Ui::mMainWindow *ui;
+    Ui::mMainWindow * ui;
 
 public slots:
-    void openAbiturientsTable () {}
+    void openAbiturientsTable ();
 };
 
 #endif // MMAINWINDOW_H
