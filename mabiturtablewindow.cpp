@@ -14,7 +14,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
                    );
 
     ptm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
-    ptm->setEditStrategy(QSqlTableModel::OnRowChange);
+    ptm->setEditStrategy(QSqlTableModel::OnManualSubmit);
     ptm->setTable("entrants");
     ptm->setRelation(7, QSqlRelation("benefits", "id", "benefit_name"));
     ptm->select();
@@ -34,7 +34,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     tf.setPointSize(8);
     ui->abiturView->horizontalHeader()->setFont(tf);
 
-    ui->toolBar->addAction(QIcon(":/icons/A"), "Добавить строку", this, SLOT(addRow()));
+    ui->toolBar->addAction(QIcon(":/icons/A"), "Добавить строку", this, SLOT(addRowButton()));
     ui->toolBar->addAction(new QAction(QIcon(":/icons/D"), "Удалить строку"));
     ui->toolBar->addAction(new QAction(QIcon(":/icons/E"), "Изменить строку"));
     ui->toolBar->addAction(new QAction(QIcon(":/icons/C"), "Копировать строку"));
@@ -49,11 +49,24 @@ mAbiturTableWindow::~mAbiturTableWindow()
     delete ui;
 }
 
-void mAbiturTableWindow::addRow() {
+void mAbiturTableWindow::addRowButton() {
 
     mAddAbiturDialog * tmp = new mAddAbiturDialog;
-    tm.p->exec();
+    this->connect(tmp, SIGNAL(cortegeFormed(QSqlRecord&)), SLOT(addRow(QSqlRecord&)));
+    tmp->exec();
+}
 
-    //qDebug() << ptm->submitAll();
-    //qDebug() << ptm->lastError().text();
+void mAbiturTableWindow::addRow(QSqlRecord & rec) {
+    ptm->insertRow(ptm->rowCount());
+
+    if (ptm->submitAll()) {
+        QMessageBox::information(this, "Добавление строки.", "Добавление строки прошло успешно");
+
+    }
+    else {
+        QMessageBox::warning(this, "Добавление строки", "Введенные данные были некорректны, не удалось инициализировать строку!");
+        qDebug() << "Adding the row goes wrong!" << ptm->lastError().text();
+        ptm->revertAll();
+        //qDebug() << rec;
+    }
 }

@@ -2,6 +2,7 @@
 #define MABITURTABLEWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QtSql>
 
 #include "precompileconstants.h"
@@ -20,7 +21,8 @@ public:
     ~mAbiturTableWindow();
 
 public slots:
-    void addRow();
+    void addRowButton();
+    void addRow(QSqlRecord &);
 
 private:
     Ui::mAbiturTableWindow *ui;
