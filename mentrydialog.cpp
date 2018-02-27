@@ -33,7 +33,7 @@ void mEntryDialog::dbConnect ()
         }
 
 #ifdef ARM_DEBUG
-        db.setHostName(DefHost);
+        db.setHostName(DefIpHost);
         db.setDatabaseName(DefDBName);
         db.setUserName(DefUserName);
         db.setPassword(DefPassword);

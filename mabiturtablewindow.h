@@ -22,7 +22,7 @@ public:
 
 public slots:
     void addRowButton();
-    void addRow(QSqlRecord &);
+    void addRow(QList <QVariant> &);
 
 private:
     Ui::mAbiturTableWindow *ui;

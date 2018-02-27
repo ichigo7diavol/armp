@@ -1,3 +1,4 @@
+
 #include "mabiturtablewindow.h"
 #include "ui_mabiturtablewindow.h"
 
@@ -14,17 +15,17 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
                    );
 
     ptm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
-    ptm->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    ptm->setEditStrategy(QSqlTableModel::OnFieldChange);
     ptm->setTable("entrants");
     ptm->setRelation(7, QSqlRelation("benefits", "id", "benefit_name"));
     ptm->select();
-
 
     QList<QString> tsl;
     tsl << "Регистрационный номер" << "Фамилия" << "Имя" << "Отчество" << "Дата регистрации" << "№ экз. листа" << "Зачислен" << "Льгота"
         << "Дата рождения" << "Пол" << "Гражданство" << "Телефон" << "Уровень образования" << "Год окончания" << "Средний балл"
         << "Нужда в общежитии" << "Примечание" << "Национальность" << "E-mail";
     QString ts;
+
     int counter = 0;
     foreach(ts, tsl) { ptm->setHeaderData(counter++, Qt::Horizontal, ts); }
 
@@ -52,21 +53,33 @@ mAbiturTableWindow::~mAbiturTableWindow()
 void mAbiturTableWindow::addRowButton() {
 
     mAddAbiturDialog * tmp = new mAddAbiturDialog;
-    this->connect(tmp, SIGNAL(cortegeFormed(QSqlRecord&)), SLOT(addRow(QSqlRecord&)));
+    this->connect(tmp, SIGNAL(cortegeFormed(QList<QVariant>&)), SLOT(addRow(QList<QVariant>&)));
     tmp->exec();
 }
 
-void mAbiturTableWindow::addRow(QSqlRecord & rec) {
-    ptm->insertRow(ptm->rowCount());
+void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
+    QVariant tv;
+
+    QSqlQuery tq(QString("INSERT INTO entrants (reg_number, benefits) "
+                         "VALUES (1, 1)"),
+                 QSqlDatabase::database(QString(DBName)));
+    tq.exec();
+    qDebug() << tq.lastError().text();
+
+    ptm->submitAll();
+
+    int index = 0;
+    foreach(tv , lv) {
+        ptm->setData(ptm->index(ptm->rowCount() - 1, index++), tv);
+    }
 
     if (ptm->submitAll()) {
         QMessageBox::information(this, "Добавление строки.", "Добавление строки прошло успешно");
-
+        ptm->select();
     }
     else {
         QMessageBox::warning(this, "Добавление строки", "Введенные данные были некорректны, не удалось инициализировать строку!");
         qDebug() << "Adding the row goes wrong!" << ptm->lastError().text();
         ptm->revertAll();
-        //qDebug() << rec;
     }
 }

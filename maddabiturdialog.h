@@ -21,7 +21,7 @@ public slots:
     void formCortege();
 
 signals:
-    void cortegeFormed (QSqlRecord &);
+    void cortegeFormed (QList <QVariant> &);
 
 private:
     Ui::mAddAbiturDialog *ui;
