@@ -4,7 +4,8 @@
 
 mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::mAbiturTableWindow)
+    ui(new Ui::mAbiturTableWindow),
+    av()
 {
     ui->setupUi(this);
 
@@ -15,21 +16,48 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
                    );
 
     ptm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
-    ptm->setEditStrategy(QSqlTableModel::OnFieldChange);
+    ptm->setEditStrategy(QSqlTableModel::OnManualSubmit);
     ptm->setTable("entrants");
-    ptm->setRelation(7, QSqlRelation("benefits", "id", "benefit_name"));
+    ptm->setRelation(ptm->fieldIndex(QString(DefF_BenId)), QSqlRelation("benefits", "id", "name"));
     ptm->select();
 
+    // reg_num, reg_date, sec_name, name, mid_name, birth_date, citizenship, phone_number, email,
+    // avg_score, benefit_id, is_dormitory, is_enlisted, gender, educ_lvl (нескрытые стобцы)
+
+    // reg_adr, live_adr, end_educ_year, is_rules_agreed, is_date_agreed, is_first_spo, is_data_proc_agreed,
+    // note (скрытые столбцы)
+
+    // sec_id (скрытый + добавляется отдельной формой)
+
+    av /*<< new QString(DefF_RegNum)*/ << new QString(DefF_RegDate)
+       << new QString(DefF_SecName) << new QString(DefF_Name)
+       << new QString(DefF_MidName) << new QString(DefF_BirthDate)
+       << new QString(DefF_CitShip) << new QString(DefF_PhonNum)
+       << new QString(DefF_Email) << new QString(DefF_AvgScr)
+       << new QString(DefF_BenId) << new QString(DefF_IsDorm)
+       << new QString(DefF_IsEnlstd) << new QString(DefF_Gender)
+       << new QString(DefF_EducLvl)
+
+       << new QString(DefF_RegAdr) << new QString(DefF_LivAdr)
+       << new QString(DefF_EndEdYear) << new QString(DefF_IsRules)
+       << new QString(DefF_IsDate) << new QString(DefF_IsSPO)
+       << new QString(DefF_IsProc) << new QString(DefF_Note);
+
+    /*
     QList<QString> tsl;
+
     tsl << "Регистрационный номер" << "Фамилия" << "Имя" << "Отчество" << "Дата регистрации" << "№ экз. листа" << "Зачислен" << "Льгота"
-        << "Дата рождения" << "Пол" << "Гражданство" << "Телефон" << "Уровень образования" << "Год окончания" << "Средний балл"
-        << "Нужда в общежитии" << "Примечание" << "Национальность" << "E-mail";
+        << "Дата рождения" << "Пол" ;//<< "Гражданство" << "Телефон" << "Уровень образования" << "Год окончания" << "Средний балл"
+        //<< "Нужда в общежитии" << "Примечание" << "Национальность" << "E-mail";
+
     QString ts;
 
     int counter = 0;
     foreach(ts, tsl) { ptm->setHeaderData(counter++, Qt::Horizontal, ts); }
+    //*/
 
     ui->abiturView->setModel(ptm);
+    ui->abiturView->setColumnHidden(0,true);
 
     QFont tf(ui->abiturView->horizontalHeader()->font());
     tf.setPointSize(8);
@@ -58,27 +86,29 @@ void mAbiturTableWindow::addRowButton() {
 }
 
 void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
-    QVariant tv;
 
-    QSqlQuery tq(QString("INSERT INTO entrants (reg_number, benefits) "
-                         "VALUES (1, 1)"),
-                 QSqlDatabase::database(QString(DBName)));
-    tq.exec();
-    qDebug() << tq.lastError().text();
-
-    ptm->submitAll();
-
-    int index = 0;
-    foreach(tv , lv) {
-        ptm->setData(ptm->index(ptm->rowCount() - 1, index++), tv);
+    QSqlRecord tmp (ptm->record());
+    QVariant tmpv;
+    tmp.setGenerated(0, false);
+    int counter = 0;
+    foreach(tmpv, lv) {
+        qDebug() << *(av[counter]);
+        tmp.setValue(tmp.indexOf(*(av[counter])), tmpv);
+        tmp.setGenerated(tmp.indexOf(*(av[counter])) ,true);
+        counter++;
     }
+    //qDebug() << tmp.indexOf("benefits_name_2");
+    tmp.setValue(tmp.indexOf(QString("benefits_name_2")), 1);
+    tmp.setGenerated(tmp.indexOf(QString("benefits_name_2")), 1);
+
+    ptm->insertRecord(-1,tmp);
 
     if (ptm->submitAll()) {
         QMessageBox::information(this, "Добавление строки.", "Добавление строки прошло успешно");
         ptm->select();
     }
     else {
-        QMessageBox::warning(this, "Добавление строки", "Введенные данные были некорректны, не удалось инициализировать строку!");
+        QMessageBox::warning(this, "Добавление строки", "Введенные данные были некорректны!");
         qDebug() << "Adding the row goes wrong!" << ptm->lastError().text();
         ptm->revertAll();
     }

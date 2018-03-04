@@ -25,9 +25,11 @@ public slots:
     void addRow(QList <QVariant> &);
 
 private:
-    Ui::mAbiturTableWindow *ui;
-    QSqlRelationalTableModel * ptm;
+    Ui::mAbiturTableWindow *ui; // ui
+    QSqlRelationalTableModel * ptm; // ptr to main table model
+    QVector <QString*> av; // atribute vector
 
+    char bri;
 };
 
 #endif // MABITURTABLEWINDOW_H

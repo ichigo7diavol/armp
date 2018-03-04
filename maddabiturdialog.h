@@ -28,6 +28,7 @@ private:
 
     QSqlTableModel * pelcbm; // ptr to education lvl combo box model
     QSqlTableModel * pbcbm; //ptr to benefit combo box model
+    QSqlTableModel * pgcbm; //ptr to gender combo box model
     QSqlRecord * par; // ptr to abit record
 };
 
