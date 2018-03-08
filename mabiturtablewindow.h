@@ -28,8 +28,7 @@ private:
     Ui::mAbiturTableWindow *ui; // ui
     QSqlRelationalTableModel * ptm; // ptr to main table model
     QVector <QString*> av; // atribute vector
-
-    char bri;
+    QVector <QString*> cfh; // columns for hide
 };
 
 #endif // MABITURTABLEWINDOW_H

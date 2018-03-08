@@ -5,7 +5,8 @@
 mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::mAbiturTableWindow),
-    av()
+    av(),
+    cfh()
 {
     ui->setupUi(this);
 
@@ -17,12 +18,20 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
 
     ptm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
     ptm->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    ptm->setTable("entrants");
-    ptm->setRelation(ptm->fieldIndex(QString(DefF_BenId)), QSqlRelation("benefits", "id", "name"));
+    ptm->setTable("entrants_v");
+    ptm->setRelation(ptm->fieldIndex(QString(DefF_BenId)), QSqlRelation(DefF_EntrantsFTbl,
+                                                                        DefF_EntrantsBenFKPK,
+                                                                        DefF_EntrantsBenFAtr));
     ptm->select();
 
     // reg_num, reg_date, sec_name, name, mid_name, birth_date, citizenship, phone_number, email,
     // avg_score, benefit_id, is_dormitory, is_enlisted, gender, educ_lvl (нескрытые стобцы)
+
+    cfh << new QString(DefF_RegNum) << new QString(DefF_RegAdr) << new QString(DefF_LivAdr) << new QString(DefF_EndEdYear)
+        << new QString(DefF_IsRules) << new QString(DefF_IsDate) << new QString(DefF_IsSPO)
+        << new QString(DefF_IsProc) << new QString(DefF_Note) << new QString(DefF_SetId);
+
+    QString * ts;
 
     // reg_adr, live_adr, end_educ_year, is_rules_agreed, is_date_agreed, is_first_spo, is_data_proc_agreed,
     // note (скрытые столбцы)
@@ -34,7 +43,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
        << new QString(DefF_MidName) << new QString(DefF_BirthDate)
        << new QString(DefF_CitShip) << new QString(DefF_PhonNum)
        << new QString(DefF_Email) << new QString(DefF_AvgScr)
-       << new QString(DefF_BenId) << new QString(DefF_IsDorm)
+       << new QString(/*DefF_BenId*/ DefF_EntrantsBenFAtr) << new QString(DefF_IsDorm)
        << new QString(DefF_IsEnlstd) << new QString(DefF_Gender)
        << new QString(DefF_EducLvl)
 
@@ -43,21 +52,19 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
        << new QString(DefF_IsDate) << new QString(DefF_IsSPO)
        << new QString(DefF_IsProc) << new QString(DefF_Note);
 
-    /*
     QList<QString> tsl;
 
-    tsl << "Регистрационный номер" << "Фамилия" << "Имя" << "Отчество" << "Дата регистрации" << "№ экз. листа" << "Зачислен" << "Льгота"
-        << "Дата рождения" << "Пол" ;//<< "Гражданство" << "Телефон" << "Уровень образования" << "Год окончания" << "Средний балл"
-        //<< "Нужда в общежитии" << "Примечание" << "Национальность" << "E-mail";
+    QString ts2;
 
-    QString ts;
+    tsl << "Дата регистрации" << "Фамилия" << "Имя" << "Отчество" << "Дата рождения" << "Гражданство" << "Номер телефона"
+        << "Email" << "Средний балл" << "Льгота" << "Необходимость в общежитии" << "Зачислен"
+        << "Пол" << "Уровень образования";
 
-    int counter = 0;
-    foreach(ts, tsl) { ptm->setHeaderData(counter++, Qt::Horizontal, ts); }
-    //*/
+    int counter = 1;
+    foreach(ts2, tsl) { ptm->setHeaderData(counter++, Qt::Horizontal, ts2); }
 
     ui->abiturView->setModel(ptm);
-    ui->abiturView->setColumnHidden(0,true);
+    foreach (ts, cfh) { ui->abiturView->setColumnHidden(ptm->fieldIndex(*ts), true); }
 
     QFont tf(ui->abiturView->horizontalHeader()->font());
     tf.setPointSize(8);
@@ -87,21 +94,19 @@ void mAbiturTableWindow::addRowButton() {
 
 void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
 
-    QSqlRecord tmp (ptm->record());
-    QVariant tmpv;
-    tmp.setGenerated(0, false);
+    QSqlRecord tr (ptm->record());
+    QVariant tv;
     int counter = 0;
-    foreach(tmpv, lv) {
-        qDebug() << *(av[counter]);
-        tmp.setValue(tmp.indexOf(*(av[counter])), tmpv);
-        tmp.setGenerated(tmp.indexOf(*(av[counter])) ,true);
+
+    tr.setGenerated(counter, false);
+
+    foreach(tv, lv) {
+        tr.setValue(tr.indexOf(*(av[counter])), tv);
+        tr.setGenerated(tr.indexOf(*(av[counter])) ,true);
         counter++;
     }
-    //qDebug() << tmp.indexOf("benefits_name_2");
-    tmp.setValue(tmp.indexOf(QString("benefits_name_2")), 1);
-    tmp.setGenerated(tmp.indexOf(QString("benefits_name_2")), 1);
 
-    ptm->insertRecord(-1,tmp);
+    ptm->insertRecord(-1,tr);
 
     if (ptm->submitAll()) {
         QMessageBox::information(this, "Добавление строки.", "Добавление строки прошло успешно");

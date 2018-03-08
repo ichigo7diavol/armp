@@ -45,4 +45,8 @@
 #define DefF_Gender      "gender"
 #define DefF_EducLvl     "educ_lvl"
 
+#define DefF_EntrantsBenFKPK  "id"
+#define DefF_EntrantsBenFAtr  "benefit_name"
+#define DefF_EntrantsFTbl     "benefits"
+
 #endif // PRECOMPILECONSTANTS_H
