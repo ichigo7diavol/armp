@@ -27,6 +27,7 @@ signals:
     void dbConnected();
 
 private:
+
     Ui::mEntryDialog *ui;
 };
 

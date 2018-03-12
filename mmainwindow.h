@@ -10,6 +10,7 @@
 #include <QStringList>
 
 #include "mabiturtablewindow.h"
+#include "othertableswindow.h"
 
 namespace Ui {
 class mMainWindow;
@@ -28,6 +29,7 @@ private:
 
 public slots:
     void openAbiturientsTable ();
+    void openDisciplineTable();
 };
 
 #endif // MMAINWINDOW_H

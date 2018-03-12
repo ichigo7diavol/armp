@@ -568,7 +568,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
      <item>
       <widget class="QPushButton" name="okPushButton">
        <property name="sizePolicy">
@@ -592,19 +592,6 @@
        </property>
        <property name="text">
         <string>Отмена</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="helpPushButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Помощь</string>
        </property>
       </widget>
      </item>

@@ -53,13 +53,12 @@ void mEntryDialog::dbConnect ()
         QMessageBox::warning(this, "Ошибка", QString(ConnectionError));
     }
     else {
-
-        emit dbConnected();
-        close();
+        accept();
     }
 }
 
 mEntryDialog::~mEntryDialog()
 {
+    qDebug() << "Entry dialog destroyed!";
     delete ui;
 }

@@ -15,6 +15,7 @@ class mAddAbiturDialog : public QDialog
 
 public:
     explicit mAddAbiturDialog(QWidget *parent = 0);
+    void fillCortege(const QSqlRecord &&, QVector<int> &);
     ~mAddAbiturDialog();
 
 public slots:

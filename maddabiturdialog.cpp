@@ -12,6 +12,8 @@ mAddAbiturDialog::mAddAbiturDialog(QWidget *parent) :
                    | Qt::MSWindowsFixedSizeDialogHint
                    );
 
+    setWindowTitle("Абитуриент");
+
     pelcbm = new QSqlTableModel(this, QSqlDatabase::database(QString(DBName)));
     pelcbm->setTable("educ_lvl_v");
     pelcbm->select();
@@ -47,8 +49,6 @@ mAddAbiturDialog::~mAddAbiturDialog() {
 
 void mAddAbiturDialog::formCortege() {
 
-    QList <QVariant> vl;
-
     // reg_num, reg_date, sec_name, name, mid_name, birth_date, citizenship, phone_number, email,
     // avg_score, benefit_id, is_dormitory, is_enlisted, gender, educ_lvl (нескрытые стобцы)
 
@@ -57,12 +57,14 @@ void mAddAbiturDialog::formCortege() {
 
     // set_id (добавляются через другие формы)
 
+    QList <QVariant> vl;
+
     vl /*<< ui->regLineEdit->text().toInt()*/ << ui->regDateEdit->date()
        << ui->secNameLineEdit->text() << ui->nameLineEdit->text()
        << ui->midNameLineEdit->text() << ui->birthDateEdit->text()
        << ui->citizenshipLineEdit->text() << ui->phoneLineEdit->text()
        << ui->mailLineEdit->text() << ui->avgScoreLineEdit->text().toFloat()
-       << QVariant(ui->privilegeComboBox->currentIndex() + 2) << ui->dormitoryCheckBox->isChecked()
+       << QVariant(ui->privilegeComboBox->currentIndex() + 1) << ui->dormitoryCheckBox->isChecked()
        << ui->enlistedCheckBox->isChecked() << ui->genderComboBox->currentText()
        << ui->eduLvlComboBox->currentText()
 
@@ -71,5 +73,38 @@ void mAddAbiturDialog::formCortege() {
        << ui->dateAgreeCheckBox->isChecked() << ui->firstSPOCheckBox->isChecked()
        << ui->procAgreeCheckBox->isChecked() << ui->noteTextEdit->toPlainText();
 
-    emit this->cortegeFormed(vl);
+    setVisible(false);
+    emit cortegeFormed(vl);
+    close();
+}
+
+void mAddAbiturDialog::fillCortege(const QSqlRecord && cor, QVector<int> & sci) {
+
+  char i = 0;
+
+  //ui->regLineEdit->setText(cor.value(0).toString());
+  ui->regDateEdit->setDate(cor.value(sci[i++]).toDate());
+  ui->secNameLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->nameLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->midNameLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->birthDateEdit->setDate(cor.value(sci[i++]).toDate());
+  ui->citizenshipLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->phoneLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->mailLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->avgScoreLineEdit->setText(cor.value(sci[i++]).toString());
+
+  ui->privilegeComboBox->setCurrentText(cor.value(sci[i++]).toString());
+
+  ui->dormitoryCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->enlistedCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->genderComboBox->setCurrentText(cor.value(sci[i++]).toString());
+  ui->eduLvlComboBox->setCurrentText(cor.value(sci[i++]).toString());
+  ui->regAdrTextEdit->setText(cor.value(sci[i++]).toString());
+  ui->liveAdrTextEdit->setText(cor.value(sci[i++]).toString());
+  ui->endYearSpinBox->setValue(cor.value(sci[i++]).toInt());
+  ui->rulesAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->dateAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->firstSPOCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->procAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
+  ui->noteTextEdit->setText(cor.value(sci[i++]).toString());
 }

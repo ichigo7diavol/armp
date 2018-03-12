@@ -9,13 +9,16 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     mEntryDialog * c = new mEntryDialog();
-    mMainWindow w;
-    QObject::connect(c, mEntryDialog::dbConnected,
-                     &w, mMainWindow::show);
+    mMainWindow* mp;
 
-    c->exec();
+    if (c->exec() == QDialog::Accepted) {
+      mp = new mMainWindow();
+      mp->show();
+    }
+    else {
+      exit(0);
+    }
 
     return a.exec();
 }

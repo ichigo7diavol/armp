@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets sql
+QT       += core gui widgets sql axcontainer
 
 #greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,7 +29,11 @@ SOURCES += \
     mentrydialog.cpp \
     mabiturtablewindow.cpp \
     maddabiturdialog.cpp \
-    maddabiturdocsdialog.cpp
+    maddabiturdocsdialog.cpp \
+    maddspecdialog.cpp \
+    maddexamdialog.cpp \
+    othertableswindow.cpp \
+    madddisciplinedialog.cpp
 
 HEADERS += \
         mmainwindow.h \
@@ -37,14 +41,22 @@ HEADERS += \
     precompileconstants.h \
     mabiturtablewindow.h \
     maddabiturdialog.h \
-    maddabiturdocsdialog.h
+    maddabiturdocsdialog.h \
+    maddspecdialog.h \
+    maddexamdialog.h \
+    othertableswindow.h \
+    madddisciplinedialog.h
 
 FORMS += \
         mmainwindow.ui \
     mentrydialog.ui \
     mabiturtablewindow.ui \
     maddabiturdialog.ui \
-    maddabiturdocsdialog.ui
+    maddabiturdocsdialog.ui \
+    maddspecdialog.ui \
+    maddexamdialog.ui \
+    othertableswindow.ui \
+    madddisciplinedialog.ui
 
 INCLUDEPATH += "C:\include"
 LIBS += "-LC:\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32

@@ -59,8 +59,16 @@ mMainWindow::mMainWindow(QWidget *parent) :
     pa = new QAction("Абитуриенты");
     this->connect(pa, SIGNAL(triggered(bool)), SLOT(openAbiturientsTable()));
     lpa << pa;
-    pa = new QAction("Учреждение");
+
+    pm->addActions(lpa);
+    lpa.clear();
+    pm->addSeparator();
+
+    pa = new QAction("Дисциплины");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openDisciplineTable()));
     lpa << pa;
+//    pa = new QAction("Учреждение");
+//    lpa << pa;
 
     pm->addActions(lpa);
     lpa.clear();
@@ -68,8 +76,8 @@ mMainWindow::mMainWindow(QWidget *parent) :
     // ПУНКТ ДОКУМЕНТЫ
 
     pm = ui->menuBar->addMenu("Документы");
-    pa = new QAction("Экзаменационные ведомости");
-    lpa << pa;
+    //pa = new QAction("Экзаменационные ведомости");
+    //lpa << pa;
     pa = new QAction("Зачисление");
     lpa << pa;
 
@@ -100,6 +108,11 @@ mMainWindow::mMainWindow(QWidget *parent) :
     lpa.clear();
 }
 
+mMainWindow::~mMainWindow()
+{
+    delete ui;
+}
+
 void mMainWindow::openAbiturientsTable() {
 
     if (!findChild<mAbiturTableWindow*>(QString("mAbiturTableWindow"))) {
@@ -118,7 +131,20 @@ void mMainWindow::openAbiturientsTable() {
     }
 }
 
-mMainWindow::~mMainWindow()
-{
-    delete ui;
+void mMainWindow::openDisciplineTable() {
+
+    if (!findChild<otherTablesWindow*>(QString("otherTablesWindowDisciplines"))) {
+
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new otherTablesWindow(0, otherTablesWindow::disciplines));
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Дисциплины"));
+
+        tmp->show();
+
+        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "otherTablesWindow[Disciplines] is already opened!";
+    }
 }
