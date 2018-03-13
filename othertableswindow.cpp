@@ -35,7 +35,7 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ptm->setTable("disciplines");
 
         pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
-        pptm->setTable("disciplines");
+        pptm->setTablre("disciplines");
 
         ui->otherTablesView->setModel(ptm);
         ptm->select();
@@ -45,6 +45,26 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ptm->setHeaderData(1, Qt::Horizontal, "Наименование дисциплины");
         }
         break;
+    case benefits: {
+        setObjectName("otherTablesWindowBenefits");
+        ct = disciplines;
+
+        ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+        ptm->setTable("benefits");
+
+        pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+        pptm->setTable("benefits");
+
+        ui->otherTablesView->setModel(ptm);
+        ptm->select();
+
+        ui->otherTablesView->setColumnHidden(0,true);
+
+        ptm->setHeaderData(1, Qt::Horizontal, "Наименование льготы");
+        ptm->setHeaderData(2, Qt::Horizontal, "Освобождение от вступительных");
+        ptm->setHeaderData(3, Qt::Horizontal, "Освобождение от конкурса");
+    }
+    break;
     }
 }
 

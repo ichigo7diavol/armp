@@ -67,8 +67,22 @@ mMainWindow::mMainWindow(QWidget *parent) :
     pa = new QAction("Дисциплины");
     this->connect(pa, SIGNAL(triggered(bool)), SLOT(openDisciplineTable()));
     lpa << pa;
-//    pa = new QAction("Учреждение");
-//    lpa << pa;
+
+    pa = new QAction("Льготы");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openBenefitsTable()));
+    lpa << pa;
+
+    pa = new QAction("Специальности");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openSpecialitiesTable()));
+    lpa << pa;
+
+    pa = new QAction("Контрольные цифры приема");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openSpecialitiesSetsTable()));
+    lpa << pa;
+
+    pa = new QAction("Типы документов");
+    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openDocumentTypesTable()));
+    lpa << pa;
 
     pm->addActions(lpa);
     lpa.clear();
@@ -147,4 +161,33 @@ void mMainWindow::openDisciplineTable() {
     else {
         qDebug() << "otherTablesWindow[Disciplines] is already opened!";
     }
+}
+
+void mMainWindow::openBenefitsTable() {
+    if (!findChild<otherTablesWindow*>(QString("otherTablesWindowBenefits"))) {
+
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new otherTablesWindow(0, otherTablesWindow::benefits));
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Льготы"));
+
+        tmp->show();
+
+        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "otherTablesWindow[Benefits] is already opened!";
+    }
+}
+
+void mMainWindow::openSpecialitiesTable() {
+
+}
+
+void mMainWindow::openSpecialitiesSetsTable() {
+
+}
+
+void mMainWindow::openDocumentTypesTable() {
+
 }

@@ -33,7 +33,10 @@ SOURCES += \
     maddspecdialog.cpp \
     maddexamdialog.cpp \
     othertableswindow.cpp \
-    madddisciplinedialog.cpp
+    madddisciplinedialog.cpp \
+    maddbenifitdialog.cpp \
+    madddocumenttypedialog.cpp \
+    maddspecialitiessetsdialog.cpp
 
 HEADERS += \
         mmainwindow.h \
@@ -45,7 +48,10 @@ HEADERS += \
     maddspecdialog.h \
     maddexamdialog.h \
     othertableswindow.h \
-    madddisciplinedialog.h
+    madddisciplinedialog.h \
+    maddbenifitdialog.h \
+    madddocumenttypedialog.h \
+    maddspecialitiessetsdialog.h
 
 FORMS += \
         mmainwindow.ui \
@@ -56,7 +62,10 @@ FORMS += \
     maddspecdialog.ui \
     maddexamdialog.ui \
     othertableswindow.ui \
-    madddisciplinedialog.ui
+    madddisciplinedialog.ui \
+    maddbenifitdialog.ui \
+    madddocumenttypedialog.ui \
+    maddspecialitiessetsdialog.ui
 
 INCLUDEPATH += "C:\include"
 LIBS += "-LC:\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32

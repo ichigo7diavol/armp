@@ -30,6 +30,10 @@ private:
 public slots:
     void openAbiturientsTable ();
     void openDisciplineTable();
+    void openSpecialitiesTable();
+    void openSpecialitiesSetsTable();
+    void openBenefitsTable();
+    void openDocumentTypesTable();
 };
 
 #endif // MMAINWINDOW_H
