@@ -6,6 +6,7 @@
 
 #include "mmainwindow.h"
 #include "madddisciplinedialog.h"
+#include "maddbenifitdialog.h"
 #include "precompileconstants.h"
 
 

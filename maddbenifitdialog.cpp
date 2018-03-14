@@ -17,10 +17,6 @@ mAddBenifitDialog::mAddBenifitDialog(QWidget *parent) :
 
     setAttribute(Qt::WA_DeleteOnClose);
 
-//    ntm = new QSqlTableModel (this, QSqlDatabase::database(QString(DBName)));
-//    ntm->setTable("benefits");
-//    ntm->select();
-
     this->connect(ui->cancelPushButton,
                   SIGNAL(clicked(bool)), SLOT(reject()));
     this->connect(ui->okPushButton,
@@ -30,4 +26,25 @@ mAddBenifitDialog::mAddBenifitDialog(QWidget *parent) :
 mAddBenifitDialog::~mAddBenifitDialog()
 {
     delete ui;
+}
+
+void mAddBenifitDialog::formCortege() {
+
+    QList <QVariant> vl;
+
+    vl << ui->nameLineEdit->text()
+       << ui->entryCheckBox->isChecked()
+       << ui->contesstCheckBox->isChecked();
+
+    setVisible(false);
+    emit cortegeFormed(vl);
+    close();
+}
+
+
+void mAddBenifitDialog::fillCortege(const QSqlRecord & rec) {
+
+    ui->nameLineEdit->setText(rec.value("benefit_name").toString());
+    ui->entryCheckBox->setChecked(rec.value("is_entry_exam").toBool());
+    ui->contesstCheckBox->setChecked(rec.value("is_contest").toBool());
 }

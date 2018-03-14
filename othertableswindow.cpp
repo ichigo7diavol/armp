@@ -26,15 +26,17 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
     ui->toolBar->addAction(QIcon(":/icons/E"), "Изменить строку", this, SLOT(editRowButton()));
     ui->toolBar->addAction(QIcon(":/icons/C"), "Копировать строку");// this, SLOT(copyRowButton()));
 
+
+    ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+    pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+
     switch (wt){
     case disciplines: {
         setObjectName("otherTablesWindowDisciplines");
         ct = disciplines;
 
-        ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
         ptm->setTable("disciplines");
-
-        pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+        pptm->setEditStrategy(QSqlTableModel::OnRowChange);
         pptm->setTable("disciplines");
 
         ui->otherTablesView->setModel(ptm);
@@ -48,12 +50,9 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         break;
     case benefits: {
         setObjectName("otherTablesWindowBenefits");
-        ct = disciplines;
+        ct = benefits;
 
-        ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
         ptm->setTable("benefits");
-
-        pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
         pptm->setTable("benefits");
 
         ui->otherTablesView->setModel(ptm);
@@ -71,10 +70,7 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         setObjectName("otherTablesWindowSpecialitiesSets");
         ct = specialities_sets;
 
-        ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
         ptm->setTable("specialities_sets");
-
-        pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
         pptm->setTable("specialities_sets");
 
         ui->otherTablesView->setModel(ptm);
@@ -82,10 +78,6 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
 
 //        ui->otherTablesView->setColumnHidden(0,true);
         ui->otherTablesSubView->setVisible(false);
-
-//        ptm->setHeaderData(1, Qt::Horizontal, "Наименование льготы");
-//        ptm->setHeaderData(2, Qt::Horizontal, "Освобождение от вступительных");
-//        ptm->setHeaderData(3, Qt::Horizontal, "Освобождение от конкурса");
 
     }
     break;
@@ -109,7 +101,7 @@ void otherTablesWindow::addRowButton() {
     }
     break;
     case benefits: {
-
+        tmp = new mAddBenifitDialog;
     }
     break;
     }
@@ -121,15 +113,19 @@ void otherTablesWindow::addRowButton() {
 void otherTablesWindow::addRow(QList<QVariant> & vl) {
 
     QSqlRecord tr (pptm->record());
+    QList<QVariant>::iterator it = vl.begin();
 
     switch (ct) {
     case disciplines: {
         tr.setGenerated(0, false);
-        tr.setValue("name", vl.first().toString());
+        tr.setValue("name", it->toString());
     }
     break;
     case benefits: {
-
+        tr.setGenerated(0, false);
+        tr.setValue("benefit_name", (*(it++)).toString());
+        tr.setValue("is_entry_exam", (*(it++)).toBool());
+        tr.setValue("is_contest", (*(it++)).toBool());
     }
     break;
     }
@@ -159,7 +155,11 @@ void otherTablesWindow::editRowButton() {
     }
     break;
     case benefits: {
-
+        tmp = new mAddBenifitDialog;
+        pptm->setFilter(QString("id = %1")
+                        .arg(ptm->record(ui->otherTablesView->currentIndex().row()).value("id").toString()));
+        pptm->select();
+        ((mAddBenifitDialog*)tmp)->fillCortege(pptm->record(0));
     }
     break;
     }
@@ -172,15 +172,19 @@ void otherTablesWindow::editRowButton() {
 void otherTablesWindow::editRow(QList<QVariant> & vl) {
 
     QSqlRecord tr(pptm->record());
+    QList<QVariant>::iterator it = vl.begin();
 
     switch (ct) {
     case disciplines: {
         tr.setGenerated(0, false);
-        tr.setValue("name", vl.first().toString());
+        tr.setValue("name", it->toString());
     }
     break;
     case benefits: {
-
+        tr.setGenerated(0, false);
+        tr.setValue("benefit_name", (it++)->toString());
+        tr.setValue("is_entry_exam", (it++)->toBool());
+        tr.setValue("is_contest", (it++)->toBool());
     }
     break;
     }
@@ -206,7 +210,9 @@ void otherTablesWindow::deleteRowButton() {
     }
     break;
     case benefits: {
-
+        pptm->setFilter(QString("id = %1")
+                        .arg(ptm->record(ui->otherTablesView->currentIndex().row()).value("id").toString()));
+        pptm->select();
     }
     break;
     }
