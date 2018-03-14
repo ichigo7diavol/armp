@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "precompileconstants.h"
+
 namespace Ui {
 class mAddBenifitDialog;
 }

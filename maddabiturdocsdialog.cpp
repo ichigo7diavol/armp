@@ -13,7 +13,7 @@ mAddAbiturDocsDialog::mAddAbiturDocsDialog(QWidget *parent) :
                    | Qt::MSWindowsFixedSizeDialogHint
                    );
 
-    setWindowTitle("Экзамен");
+    setWindowTitle("Документ");
 
     setAttribute(Qt::WA_DeleteOnClose);
 

@@ -2,6 +2,9 @@
 #define MADDSPECIALITIESSETSDIALOG_H
 
 #include <QDialog>
+#include <QtSql>
+
+#include "precompileconstants.h"
 
 namespace Ui {
 class mAddSpecialitiesSetsDialog;
@@ -17,6 +20,9 @@ public:
 
 private:
     Ui::mAddSpecialitiesSetsDialog *ui;
+
+    QSqlTableModel * ptm;
+    QSqlTableModel * pptm;
 };
 
 #endif // MADDSPECIALITIESSETSDIALOG_H

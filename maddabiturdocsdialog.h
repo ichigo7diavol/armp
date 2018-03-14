@@ -28,7 +28,7 @@ signals:
 private:
     Ui::mAddAbiturDocsDialog *ui;
 
-    QSqlTableModel * ntm;
+    QSqlTableModel * ntm; // document types dialog
 };
 
 #endif // ADDABITURDOCSDIALOG_H

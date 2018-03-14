@@ -22,19 +22,25 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTableView" name="otherTablesView">
-      <property name="styleSheet">
-       <string notr="true">QHeaderView::section {
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTableView" name="otherTablesView">
+       <property name="styleSheet">
+        <string notr="true">QHeaderView::section {
 	background-color: rgb(200, 200, 200);
 	/*font-size: 9pt;*/
 }</string>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+      </widget>
+      <widget class="QTableView" name="otherTablesSubView"/>
      </widget>
     </item>
    </layout>

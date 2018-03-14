@@ -35,12 +35,13 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ptm->setTable("disciplines");
 
         pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
-        pptm->setTablre("disciplines");
+        pptm->setTable("disciplines");
 
         ui->otherTablesView->setModel(ptm);
         ptm->select();
 
         ui->otherTablesView->setColumnHidden(0,true);
+        ui->otherTablesSubView->setVisible(false);
 
         ptm->setHeaderData(1, Qt::Horizontal, "Наименование дисциплины");
         }
@@ -59,10 +60,33 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ptm->select();
 
         ui->otherTablesView->setColumnHidden(0,true);
+        ui->otherTablesSubView->setVisible(false);
 
         ptm->setHeaderData(1, Qt::Horizontal, "Наименование льготы");
         ptm->setHeaderData(2, Qt::Horizontal, "Освобождение от вступительных");
         ptm->setHeaderData(3, Qt::Horizontal, "Освобождение от конкурса");
+    }
+    break;
+    case specialities_sets: {
+        setObjectName("otherTablesWindowSpecialitiesSets");
+        ct = specialities_sets;
+
+        ptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+        ptm->setTable("specialities_sets");
+
+        pptm = new QSqlTableModel(this, QSqlDatabase::database(DBName));
+        pptm->setTable("specialities_sets");
+
+        ui->otherTablesView->setModel(ptm);
+        ptm->select();
+
+//        ui->otherTablesView->setColumnHidden(0,true);
+        ui->otherTablesSubView->setVisible(false);
+
+//        ptm->setHeaderData(1, Qt::Horizontal, "Наименование льготы");
+//        ptm->setHeaderData(2, Qt::Horizontal, "Освобождение от вступительных");
+//        ptm->setHeaderData(3, Qt::Horizontal, "Освобождение от конкурса");
+
     }
     break;
     }
