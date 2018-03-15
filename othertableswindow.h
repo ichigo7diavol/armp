@@ -7,6 +7,7 @@
 #include "mmainwindow.h"
 #include "madddisciplinedialog.h"
 #include "maddbenifitdialog.h"
+#include "maddspecialitiesdialog.h"
 #include "precompileconstants.h"
 
 

@@ -138,7 +138,7 @@ void mMainWindow::openAbiturientsTable() {
 
         tmp->show();
 
-        qDebug() << "mAbiturTableWindow created!";
+//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "mAbiturTableWindow is already opened!";
@@ -156,7 +156,7 @@ void mMainWindow::openDisciplineTable() {
 
         tmp->show();
 
-        qDebug() << "mAbiturTableWindow created!";
+//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "otherTablesWindow[Disciplines] is already opened!";
@@ -173,7 +173,7 @@ void mMainWindow::openBenefitsTable() {
 
         tmp->show();
 
-        qDebug() << "mAbiturTableWindow created!";
+//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "otherTablesWindow[Benefits] is already opened!";
@@ -181,7 +181,20 @@ void mMainWindow::openBenefitsTable() {
 }
 
 void mMainWindow::openSpecialitiesTable() {
+    if (!findChild<otherTablesWindow*>(QString("otherTablesWindowSpecialities"))) {
 
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new otherTablesWindow(0, otherTablesWindow::specialities));
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Специальности"));
+
+        tmp->show();
+
+//        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "otherTablesWindow[Specialities] is already opened!";
+    }
 }
 
 void mMainWindow::openSpecialitiesSetsTable() {

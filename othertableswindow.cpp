@@ -76,9 +76,27 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ui->otherTablesView->setModel(ptm);
         ptm->select();
 
-//        ui->otherTablesView->setColumnHidden(0,true);
+//      ui->otherTablesView->setColumnHidden(0,true);
         ui->otherTablesSubView->setVisible(false);
 
+    }
+    break;
+    case specialities: {
+        setObjectName("otherTablesWindowSpecialities");
+        ct = specialities;
+
+        ptm->setTable("specialities");
+        pptm->setTable("specialities");
+
+        ui->otherTablesView->setModel(ptm);
+        ptm->select();
+
+        ui->otherTablesView->setColumnHidden(0,true);
+        ui->otherTablesSubView->setVisible(false);
+
+        ptm->setHeaderData(1, Qt::Horizontal, "Наименование");
+        ptm->setHeaderData(2, Qt::Horizontal, "Код");
+        ptm->setHeaderData(3, Qt::Horizontal, "Сокращение");
     }
     break;
     }
@@ -104,6 +122,10 @@ void otherTablesWindow::addRowButton() {
         tmp = new mAddBenifitDialog;
     }
     break;
+    case specialities: {
+        tmp = new mAddSpecialitiesDialog;
+    }
+    break;
     }
     QObject::connect(tmp, SIGNAL(cortegeFormed(QList<QVariant>&)),
                      this, SLOT(addRow(QList<QVariant>&)));
@@ -126,6 +148,13 @@ void otherTablesWindow::addRow(QList<QVariant> & vl) {
         tr.setValue("benefit_name", (*(it++)).toString());
         tr.setValue("is_entry_exam", (*(it++)).toBool());
         tr.setValue("is_contest", (*(it++)).toBool());
+    }
+    break;
+    case specialities: {
+        tr.setGenerated(0, false);
+        tr.setValue("name", (*(it++)).toString());
+        tr.setValue("code", (*(it++)).toBool());
+        tr.setValue("abbreviation", (*(it++)).toBool());
     }
     break;
     }
@@ -162,6 +191,14 @@ void otherTablesWindow::editRowButton() {
         ((mAddBenifitDialog*)tmp)->fillCortege(pptm->record(0));
     }
     break;
+    case specialities: {
+        tmp = new mAddSpecialitiesDialog;
+        pptm->setFilter(QString("spec_id = %1")
+                        .arg(ptm->record(ui->otherTablesView->currentIndex().row()).value("spec_id").toString()));
+        pptm->select();
+        ((mAddSpecialitiesDialog*)tmp)->fillCortege(pptm->record(0));
+    }
+    break;
     }
 
     QObject::connect(tmp, SIGNAL(cortegeFormed(QList<QVariant>&)),
@@ -185,6 +222,13 @@ void otherTablesWindow::editRow(QList<QVariant> & vl) {
         tr.setValue("benefit_name", (it++)->toString());
         tr.setValue("is_entry_exam", (it++)->toBool());
         tr.setValue("is_contest", (it++)->toBool());
+    }
+    break;
+    case specialities: {
+        tr.setGenerated(0, false);
+        tr.setValue("name", (it++)->toString());
+        tr.setValue("code", (it++)->toString());
+        tr.setValue("abbreviation", (it++)->toString());
     }
     break;
     }
@@ -212,6 +256,12 @@ void otherTablesWindow::deleteRowButton() {
     case benefits: {
         pptm->setFilter(QString("id = %1")
                         .arg(ptm->record(ui->otherTablesView->currentIndex().row()).value("id").toString()));
+        pptm->select();
+    }
+    break;
+    case specialities: {
+        pptm->setFilter(QString("spec_id = %1")
+                        .arg(ptm->record(ui->otherTablesView->currentIndex().row()).value("spec_id").toString()));
         pptm->select();
     }
     break;

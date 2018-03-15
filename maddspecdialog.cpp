@@ -36,7 +36,9 @@ mAddSpecDialog::mAddSpecDialog(QWidget *parent) :
     ui->financeFormComboBox->setModel(pftm);
     ui->financeFormComboBox->setModelColumn(0);
 
-    QObject::connect(ui->pushButton, SIGNAL(clicked(bool)),
+    this->connect(ui->cancelPushButton,
+                  SIGNAL(clicked(bool)), SLOT(reject()));
+    QObject::connect(ui->okPushButton, SIGNAL(clicked(bool)),
                      this, SLOT(formCortege()));
 }
 
