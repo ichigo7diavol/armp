@@ -18,11 +18,24 @@ public:
     explicit mAddSpecialitiesSetsDialog(QWidget *parent = 0);
     ~mAddSpecialitiesSetsDialog();
 
+signals:
+    void cortegeFormed(QList<QVariant>&);
+
+public slots:
+    void formCortege();
+    void fillCortege(const QSqlRecord &);
+
 private:
     Ui::mAddSpecialitiesSetsDialog *ui;
 
-    QSqlTableModel * ptm;
-    QSqlTableModel * pptm;
+    QSqlTableModel * pstm;
+    QSqlTableModel * ppstm;
+
+    QSqlTableModel * petm;
+    QSqlTableModel * ppetm;
+
+    QSqlTableModel * pftm;
+    QSqlTableModel * ppftm;
 };
 
 #endif // MADDSPECIALITIESSETSDIALOG_H

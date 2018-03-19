@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>915</width>
+    <width>868</width>
     <height>562</height>
    </rect>
   </property>
@@ -22,13 +22,47 @@
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0">
-     <item row="7" column="1">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Отчество</string>
+     <item row="9" column="5" colspan="3">
+      <widget class="QCheckBox" name="dateAgreeCheckBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="text">
+        <string>С датой представления оригинала документа гос. 
+образца об образовании ознакомлен(а)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="5" rowspan="2" colspan="3">
+      <widget class="QCheckBox" name="rulesAgreeCheckBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>С Уставом, лицензией на право осуществления образовательной 
+деятельности, свидетельством о гос. аккредитации, 
+Правилами приема и условиями обучения, правилами подачи
+ апелляции ознакомлен(а)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="7">
+      <widget class="QCheckBox" name="enlistedCheckBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Зачислен</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="6" colspan="2">
+      <widget class="QCheckBox" name="dormitoryCheckBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Нуждается в общежитии</string>
        </property>
       </widget>
      </item>
@@ -74,6 +108,26 @@
        </property>
       </widget>
      </item>
+     <item row="7" column="1">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Отчество</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Фамилия</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="7" column="2" colspan="2">
       <widget class="QLineEdit" name="midNameLineEdit"/>
      </item>
@@ -96,19 +150,6 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="2" colspan="2">
-      <widget class="QLineEdit" name="birthPlaceLineEdit"/>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Фамилия</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
      <item row="11" column="1">
       <widget class="QLabel" name="label_20">
        <property name="text">
@@ -116,6 +157,26 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="4">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="8" column="2">
+      <widget class="QDateEdit" name="birthDateEdit">
+       <property name="calendarPopup">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -136,62 +197,6 @@
       <widget class="QLabel" name="label_21">
        <property name="text">
         <string>Пол</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="4">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="9" column="1">
-      <widget class="QLabel" name="label_22">
-       <property name="text">
-        <string>Место рождения</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="2">
-      <widget class="QDateEdit" name="birthDateEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="7">
-      <widget class="QLineEdit" name="regLineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="6">
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Регистрационный номер</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -230,6 +235,22 @@
        </property>
       </widget>
      </item>
+     <item row="12" column="1">
+      <widget class="QLabel" name="label_16">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Адрес регистрации</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+       </property>
+      </widget>
+     </item>
      <item row="12" column="2" colspan="2">
       <widget class="QTextEdit" name="regAdrTextEdit">
        <property name="sizePolicy">
@@ -258,19 +279,23 @@
      <item row="14" column="2" colspan="2">
       <widget class="QLineEdit" name="phoneLineEdit"/>
      </item>
-     <item row="12" column="1">
-      <widget class="QLabel" name="label_16">
+     <item row="14" column="1">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>Телефон</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="2">
+      <widget class="QLineEdit" name="mailLineEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Адрес регистрации</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
        </property>
       </widget>
      </item>
@@ -296,33 +321,19 @@
        </property>
       </widget>
      </item>
-     <item row="14" column="1">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>Телефон</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="15" column="2">
-      <widget class="QLineEdit" name="mailLineEdit">
+     <item row="17" column="2">
+      <widget class="QComboBox" name="eduLvlComboBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item row="15" column="1">
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>E-mail</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="minimumSize">
+        <size>
+         <width>133</width>
+         <height>0</height>
+        </size>
        </property>
       </widget>
      </item>
@@ -348,21 +359,18 @@
        </property>
       </widget>
      </item>
-     <item row="17" column="2">
-      <widget class="QComboBox" name="eduLvlComboBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="15" column="1">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>E-mail</string>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>133</width>
-         <height>0</height>
-        </size>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
+     </item>
+     <item row="18" column="2">
+      <widget class="QSpinBox" name="endYearSpinBox"/>
      </item>
      <item row="17" column="1">
       <widget class="QLabel" name="label_24">
@@ -373,9 +381,6 @@
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
-     </item>
-     <item row="18" column="2">
-      <widget class="QSpinBox" name="endYearSpinBox"/>
      </item>
      <item row="18" column="1">
       <widget class="QLabel" name="label_25">
@@ -391,6 +396,16 @@
       <widget class="QLabel" name="label_26">
        <property name="text">
         <string>Средний балл</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="20" column="1">
+      <widget class="QLabel" name="label_27">
+       <property name="text">
+        <string>Льгота</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -429,24 +444,17 @@
        </property>
       </widget>
      </item>
-     <item row="20" column="1">
-      <widget class="QLabel" name="label_27">
+     <item row="12" column="5">
+      <widget class="QLabel" name="label_35">
        <property name="text">
-        <string>Льгота</string>
+        <string>Примечание</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
        </property>
       </widget>
      </item>
-     <item row="6" column="7">
-      <widget class="QDateEdit" name="regDateEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="6">
+     <item row="9" column="1">
       <widget class="QLabel" name="label_5">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -462,23 +470,10 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="7">
-      <widget class="QCheckBox" name="enlistedCheckBox">
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="text">
-        <string>Зачислен</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="6" colspan="2">
-      <widget class="QCheckBox" name="dormitoryCheckBox">
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="text">
-        <string>Нуждается в общежитии</string>
+     <item row="9" column="2">
+      <widget class="QDateEdit" name="regDateEdit">
+       <property name="calendarPopup">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -504,57 +499,23 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="5">
-      <widget class="QLabel" name="label_35">
-       <property name="text">
-        <string>Примечание</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="5" rowspan="2" colspan="3">
-      <widget class="QCheckBox" name="rulesAgreeCheckBox">
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="text">
-        <string>С Уставом, лицензией на право осуществления образовательной 
-деятельности, свидетельством о гос. аккредитации, 
-Правилами приема и условиями обучения, правилами подачи
- апелляции ознакомлен(а)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="5" colspan="3">
-      <widget class="QCheckBox" name="dateAgreeCheckBox">
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="text">
-        <string>С датой представления оригинала документа гос. 
-образца об образовании ознакомлен(а)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="5" colspan="3">
-      <widget class="QCheckBox" name="procAgreeCheckBox">
-       <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
-       </property>
-       <property name="text">
-        <string>Согласие на обработку персональных данных</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="6" colspan="2">
+     <item row="10" column="5" colspan="3">
       <widget class="QCheckBox" name="firstSPOCheckBox">
        <property name="layoutDirection">
         <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>СПО получает впервые</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="5" colspan="3">
+      <widget class="QCheckBox" name="procAgreeCheckBox">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Согласие на обработку персональных данных</string>
        </property>
       </widget>
      </item>

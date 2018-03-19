@@ -8,6 +8,9 @@
 #include "madddisciplinedialog.h"
 #include "maddbenifitdialog.h"
 #include "maddspecialitiesdialog.h"
+#include "madddocumenttypedialog.h"
+#include "maddspecialitiessetsdialog.h"
+#include "mspecsetdiscadddialog.h"
 #include "precompileconstants.h"
 
 
@@ -44,13 +47,22 @@ public slots:
 
     void deleteRowButton();
 
+    void setChanged();
+    void specChanged();
+
+    void specComboBoxChanged(const int &);
 private:
     Ui::otherTablesWindow *ui;
 
     otherTablesWinTypes ct; // current table
 
-    QSqlTableModel * ptm;
+    QSqlRelationalTableModel* ptm;
     QSqlTableModel * pptm;
+
+    QSqlRelationalTableModel* pstm;
+    QSqlTableModel * ppstm;
+
+    QComboBox * specComboBox;
 };
 
 #endif // OTHERTABLESWINDOW_H

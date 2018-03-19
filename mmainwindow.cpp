@@ -198,9 +198,35 @@ void mMainWindow::openSpecialitiesTable() {
 }
 
 void mMainWindow::openSpecialitiesSetsTable() {
+    if (!findChild<otherTablesWindow*>(QString("otherTablesWindowSpecialitiesSets"))) {
 
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new otherTablesWindow(0, otherTablesWindow::specialities_sets));
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Контрольные цифры"));
+
+        tmp->show();
+
+//        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "otherTablesWindow[SpecialitiesSets] is already opened!";
+    }
 }
 
 void mMainWindow::openDocumentTypesTable() {
+    if (!findChild<otherTablesWindow*>(QString("otherTablesWindowDocumentTypes"))) {
 
+        QMdiSubWindow * tmp = ui->mdiArea->addSubWindow(new otherTablesWindow(0, otherTablesWindow::document_types));
+
+        tmp->setWindowIcon(QIcon(QPixmap(":/icons/TablesheetIcon32.png")));
+        tmp->setWindowTitle(QString("Документы"));
+
+        tmp->show();
+
+//        qDebug() << "mAbiturTableWindow created!";
+    }
+    else {
+        qDebug() << "otherTablesWindow[DocumentTypes] is already opened!";
+    }
 }

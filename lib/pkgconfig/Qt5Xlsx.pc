@@ -1,0 +1,14 @@
+prefix=C:/Qt/5.7/mingw53_32
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+
+Name: Qt5 Xlsx
+Description: Qt Xlsx module
+Version: 0.3.0
+Libs: -L${libdir} -lQt5Xlsxd 
+Libs.private: -LC:\Qt\5.7\mingw53_32\lib C:\Qt\5.7\mingw53_32\lib\libQt5Guid.a C:\Qt\5.7\mingw53_32\lib\libQt5Cored.a -LC:\utils\my_sql\my_sql\lib -LC:\utils\postgresql\pgsql\lib .obj\debug\Qt5Xlsxd_resource_res.o   
+Cflags: -I${includedir}/QtXlsx -I${includedir}
+Requires: Qt5Core Qt5Gui
+

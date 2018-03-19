@@ -46,7 +46,8 @@ void mAddExamDialog::formCortege(){
     QList<QVariant> vl;
 
     vl << ui->markLineEdit->text()
-       << ui->disciplineComboBox->currentIndex() + 1
+       << dtm->record(ui->disciplineComboBox->currentIndex())
+          .value("discipline_id")
        << ui->typeComboBox->currentText();
 
     setVisible(false);

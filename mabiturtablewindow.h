@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QtSql>
+#include <QtPrintSupport/QPrinter>
+#include <QPainter>
 
 #include "maddspecdialog.h"
 #include "maddabiturdocsdialog.h"
@@ -35,6 +37,8 @@ public slots:
     void changeSubTable (int index);
 
     void abiturChanged();
+
+    void print();
 
 private:
     Ui::mAbiturTableWindow *ui; // ui

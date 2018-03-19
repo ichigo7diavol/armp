@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets sql axcontainer
+QT       += core gui widgets sql axcontainer xlsx printsupport
 
 #greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,7 +37,8 @@ SOURCES += \
     maddbenifitdialog.cpp \
     madddocumenttypedialog.cpp \
     maddspecialitiessetsdialog.cpp \
-    maddspecialitiesdialog.cpp
+    maddspecialitiesdialog.cpp \
+    mspecsetdiscadddialog.cpp
 
 HEADERS += \
         mmainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     maddbenifitdialog.h \
     madddocumenttypedialog.h \
     maddspecialitiessetsdialog.h \
-    maddspecialitiesdialog.h
+    maddspecialitiesdialog.h \
+    mspecsetdiscadddialog.h
 
 FORMS += \
         mmainwindow.ui \
@@ -68,10 +70,15 @@ FORMS += \
     maddbenifitdialog.ui \
     madddocumenttypedialog.ui \
     maddspecialitiessetsdialog.ui \
-    maddspecialitiesdialog.ui
+    maddspecialitiesdialog.ui \
+    mspecsetdiscadddialog.ui
 
-INCLUDEPATH += "C:\include"
-LIBS += "-LC:\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32
+INCLUDEPATH += "C:\include" \
+#    "C:\Users\Arhon\Documents\ArmPriemka\include\QtXlsx"
+
+LIBS += "-LC:\bin" -llibeay32 -llibintl-8 -llibpq -lssleay32 \
+#    "-LC:\Users\Arhon\Documents\ArmPriemka\lib" \
+#    -lib\Qt5Xlsx -lib\Qt5Xlsxd
 
 RESOURCES += \
     assets.qrc

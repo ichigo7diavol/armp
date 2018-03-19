@@ -44,7 +44,8 @@ mAddSpecDialog::mAddSpecDialog(QWidget *parent) :
 
 void mAddSpecDialog::formCortege() {
     QList <QVariant> tmp;
-    tmp << ui->specComboBox->currentIndex() + 1 << ui->educFormComboBox->currentText()
+    tmp << pstm->record(ui->specComboBox->currentIndex()).value("set_id")
+        << ui->educFormComboBox->currentText()
         << ui->financeFormComboBox->currentText();
 
     setVisible(false);

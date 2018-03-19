@@ -116,7 +116,7 @@ mAbiturTableWindow::~mAbiturTableWindow()
 void mAbiturTableWindow::addRowButton() {
 
     QDialog * tmp;
-
+    print();
     if (this->focusWidget() != ui->abiturView) {
         if (ptm->rowCount() == 0) {
             QMessageBox::warning(this, "Ошибка", "Для добавление подзаписи, кол-во абитуриентов должно быть больше одного!");
@@ -179,6 +179,7 @@ void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
             tr.setValue("set_id",ttm.record(0).value("set_id").toInt());
             tr.setValue("reg_num", ptm->record(ui->abiturView->currentIndex().row())
                         .value("reg_num"));
+            tr.setGenerated("priority", false);
             }
             break;
         case documents: {
@@ -445,6 +446,23 @@ void mAbiturTableWindow::changeSubTable (int index) {
         delete ppstm;
     }
 
+    switch (swt) {
+    case exams:
+        ui->subTablesView->setColumnHidden(0, false);
+        ui->subTablesView->setColumnHidden(3, false);
+        break;
+
+    case documents:
+        ui->subTablesView->setColumnHidden(0, false);
+        ui->subTablesView->setColumnHidden(8, false);
+        break;
+
+    case specialities:
+        ui->subTablesView->setColumnHidden(0, false);
+        ui->subTablesView->setColumnHidden(1, false);
+        break;
+    }
+
     switch (index) {
     case 0:
         qDebug() << "sub i = 0";
@@ -546,6 +564,20 @@ void mAbiturTableWindow::abiturChanged() {
     pstm->setFilter(QString("reg_num = %1")
                     .arg(ptm->record(ui->abiturView->currentIndex().row()).value(0).toInt()));
 
-    qDebug() << pstm->filter();
     pstm->select();
+}
+
+void mAbiturTableWindow::print()
+{
+    QString filename="users.pdf";
+    //Paramètres d'impression
+    QPrinter printer;//QPrinter::HighResolution);
+    printer.setOutputFileName(filename);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+
+    QPainter painter(&printer);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    ui->abiturView->render( &painter );
+    painter.end();
 }
