@@ -39,7 +39,7 @@ mAddAbiturDocsDialog::~mAddAbiturDocsDialog()
 void mAddAbiturDocsDialog::formCortege() {
     QList<QVariant> vl;
 
-    vl << ui->docNameComboBox->currentIndex() + 1
+    vl << ntm->record(ui->docNameComboBox->currentIndex()).value("document_type_id")
        << ui->docNumLineEdit->text()
        << ui->docSeriesLineEdit->text()
        << ui->receiveDateEdit->date()

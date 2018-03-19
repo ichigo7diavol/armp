@@ -59,12 +59,15 @@ void mAddAbiturDialog::formCortege() {
 
     QList <QVariant> vl;
 
-    vl /*<< ui->regLineEdit->text().toInt()*/ << ui->regDateEdit->date()
+    /*<< ui->regLineEdit->text().toInt()*/
+
+    vl << ui->regDateEdit->date()
        << ui->secNameLineEdit->text() << ui->nameLineEdit->text()
        << ui->midNameLineEdit->text() << ui->birthDateEdit->text()
        << ui->citizenshipLineEdit->text() << ui->phoneLineEdit->text()
        << ui->mailLineEdit->text() << ui->avgScoreLineEdit->text().toFloat()
-       << QVariant(ui->privilegeComboBox->currentIndex() + 1) << ui->dormitoryCheckBox->isChecked()
+       << pbcbm->record(ui->privilegeComboBox->currentIndex()).value("id")
+       << ui->dormitoryCheckBox->isChecked()
        << ui->enlistedCheckBox->isChecked() << ui->genderComboBox->currentText()
        << ui->eduLvlComboBox->currentText()
 

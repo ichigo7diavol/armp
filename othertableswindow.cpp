@@ -427,7 +427,7 @@ void otherTablesWindow::deleteRowButton() {
         ppstm->setFilter(QString("spec_id = %1 AND discipline_id = %2")
                         .arg(pstm->record(ui->otherTablesView->currentIndex().row())
                              .value("spec_id").toString())
-                         .arg(pstm->record(ui->otherTablesView->currentIndex().row())
+                         .arg(pstm->record(ui->otherTablesSubView->currentIndex().row())
                               .value("discipline_id").toString()));
         ppstm->select();
     }
