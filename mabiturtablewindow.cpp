@@ -94,6 +94,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     tableSwitcher->addItem("Экзамены");
     tableSwitcher->addItem("Документы");
     tableSwitcher->addItem("Спциальности");
+    tableSwitcher->addItem("Оценки аттестата");
 
     QObject::connect(tableSwitcher, SIGNAL(currentIndexChanged(int)),
                      this, SLOT(changeSubTable(int)));
@@ -132,6 +133,9 @@ void mAbiturTableWindow::addRowButton() {
                 break;
             case specialities:
                 tmp = new mAddSpecDialog;
+                break;
+            case marks:
+                tmp = new mAddAbiturMarkDialog;
                 break;
             }
 
@@ -197,6 +201,13 @@ void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
             tr.setValue("is_issued", (*(it++)));
             }
             break;
+        case marks: {
+            tr.setValue("reg_num", ptm->record(ui->abiturView->currentIndex().row())
+                        .value("reg_num"));
+            tr.setValue("discipline_id", (*(it++)));
+            tr.setValue("mark", (*(it++)));
+            }
+            break;
         }
     }
     else {
@@ -249,6 +260,11 @@ void mAbiturTableWindow::deleteRowButton() {
                              .arg(ptm->record(ui->abiturView->currentIndex().row()).value(0).toInt())
                              .arg(pstm->record(ui->subTablesView->currentIndex().row()).value(1).toInt()));
             break;
+        case marks:
+            ppstm->setFilter(QString("reg_num = %1 and discipline_id = %2")
+                             .arg(ptm->record(ui->abiturView->currentIndex().row()).value("reg_num").toInt())
+                             .arg(pstm->record(ui->subTablesView->currentIndex().row()).value("discipline_id").toInt()));
+            break;
         }
         ppstm->removeRow(0);
     }
@@ -292,6 +308,10 @@ void mAbiturTableWindow::editRowButton() {
         case specialities:
             tmp = new mAddSpecDialog;
             ((mAddSpecDialog*)tmp)->fillCortege(pstm->record(ui->subTablesView->currentIndex().row()));
+            break;
+        case marks:
+            tmp = new mAddAbiturMarkDialog;
+            ((mAddAbiturMarkDialog*)tmp)->fillCortege(pstm->record(ui->subTablesView->currentIndex().row()));
             break;
         }
 
@@ -370,6 +390,18 @@ void mAbiturTableWindow::editRow(QList <QVariant> & lv) {
             tr.setValue("is_issued", (*(it++)).toString());
             }
             break;
+        case marks: {
+            ppstm->setFilter(QString("reg_num = %1 AND discipline_id = %2")
+                             .arg(pstm->record(ui->subTablesView->currentIndex().row())
+                                  .value("reg_num").toString())
+                             .arg(pstm->record(ui->subTablesView->currentIndex().row())
+                                  .value("discipline_id").toString()));
+            tr.setValue("reg_num", ptm->record(ui->abiturView->currentIndex().row())
+                        .value("reg_num"));
+            tr.setValue("discipline_id", (*(it++)));
+            tr.setValue("mark", (*(it++)));
+            }
+            break;
         }
         ppstm->select();
     }
@@ -419,6 +451,9 @@ void mAbiturTableWindow::copyRowButton() {
         case specialities:
             QMessageBox::warning(this, "Ошибка", "Данный тип записи нельзя копировать!");
             return;
+        case specialities:
+            QMessageBox::warning(this, "Ошибка", "Данный тип записи нельзя копировать!");
+            return;
         }
     }
     else {
@@ -460,6 +495,10 @@ void mAbiturTableWindow::changeSubTable (int index) {
     case specialities:
         ui->subTablesView->setColumnHidden(0, false);
         ui->subTablesView->setColumnHidden(1, false);
+        break;
+    case marks:
+        ui->subTablesView->setColumnHidden(0, false);
+        ui->subTablesView->setColumnHidden(2, false);
         break;
     }
 
@@ -508,7 +547,7 @@ void mAbiturTableWindow::changeSubTable (int index) {
         swt = documents;
 
         break;
-    case 2:
+    case 2: {
         qDebug() << "sub i = 2";
         pstm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
         pstm->setEditStrategy(QSqlTableModel::OnRowChange);
@@ -517,7 +556,7 @@ void mAbiturTableWindow::changeSubTable (int index) {
 
         QList<QString> hsl; // headers string list
 
-        hsl << "Специальность" << "Код" << "Форма обучения" << "Отделение";
+        hsl << "Оценка" << "Дисциплина";
 
         QString ts;
         int i = 2;
@@ -532,7 +571,26 @@ void mAbiturTableWindow::changeSubTable (int index) {
         ppstm->select();
 
         swt = specialities;
+        }
+        break;
+    case 3: {
+        qDebug() << "sub i = 3";
+        pstm = new QSqlRelationalTableModel(this, QSqlDatabase::database(QString(DBName)));
+        pstm->setEditStrategy(QSqlTableModel::OnRowChange);
+        pstm->setTable("education_certificates_v");
+        pstm->setFilter(QString("reg_num = %1").arg(ptm->record(ui->abiturView->currentIndex().row()).value(0).toInt()));
 
+        pstm->setHeaderData(1, Qt::Horizontal, "Оценка");
+        pstm->setHeaderData(3, Qt::Horizontal, "Дисциплина");
+
+        pstm->select();
+
+        ppstm = new QSqlTableModel(this, QSqlDatabase::database(QString(DBName)));
+        ppstm->setTable("education_certificates");
+        ppstm->select();
+
+        swt = marks;
+        }
         break;
     }
 
@@ -555,6 +613,10 @@ void mAbiturTableWindow::changeSubTable (int index) {
     case specialities:
         ui->subTablesView->setColumnHidden(0, true);
         ui->subTablesView->setColumnHidden(1, true);
+        break;
+    case marks:
+        ui->subTablesView->setColumnHidden(0, true);
+        ui->subTablesView->setColumnHidden(2, true);
         break;
     }
 }

@@ -12,6 +12,7 @@
 #include "maddexamdialog.h"
 #include "precompileconstants.h"
 #include "maddabiturdialog.h"
+#include "maddabiturmarkdialog.h"
 
 namespace Ui {
 class mAbiturTableWindow;
@@ -62,7 +63,7 @@ private:
     QVector <QString> shci; // specs
     QVector <QString> ssci;
 
-    enum sunWinType { none = -1, exams = 0, documents, specialities } swt;
+    enum sunWinType { none = -1, exams = 0, documents, specialities, marks } swt;
 };
 
 #endif // MABITURTABLEWINDOW_H
