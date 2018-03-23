@@ -63,7 +63,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     QList<QString> hsl; // headers string list
 
     hsl << "Дата регистрации" << "Фамилия" << "Имя" << "Отчество" << "Дата рождения" << "Гражданство" << "Номер телефона"
-        << "Email" << "Средний балл" << "Льгота" << "Необходимость в общежитии" << "Зачислен"
+        << "Email" << "Средний балл" << "Льгота" << "Необходимость в общежитии" << "Слушатель курсов"
         << "Пол" << "Уровень образования";
 
     QString ts;
@@ -102,7 +102,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     ui->toolBar->addSeparator();
     ui->toolBar->addWidget(tableSwitcher);
 
-    tableSwitcher->setCurrentIndex(1);
+    tableSwitcher->setCurrentIndex(2);
 
     qDebug() << "mAbiturTableWindow created!";
 }
@@ -176,14 +176,15 @@ void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
             QSqlTableModel ttm(this, QSqlDatabase::database(QString(DBName)));
             ttm.setTable(QString("specialities_sets"));
             ttm.setFilter(QString("spec_id = %3 and educ_form = '%2' and finance_form = '%1'")
-                          .arg((*(it++)).toString())
-                          .arg((*(it++)).toString())
-                          .arg((*(it++)).toString()));
+                          .arg((it++)->toString())
+                          .arg((it++)->toString())
+                          .arg((it++)->toString()));
             ttm.select();
             tr.setValue("set_id",ttm.record(0).value("set_id").toInt());
+            tr.setValue("priority", (it++)->toString());
             tr.setValue("reg_num", ptm->record(ui->abiturView->currentIndex().row())
                         .value("reg_num"));
-            tr.setGenerated("priority", false);
+            //tr.setGenerated("priority", false);
             }
             break;
         case documents: {
@@ -343,15 +344,16 @@ void mAbiturTableWindow::editRow(QList <QVariant> & lv) {
             QSqlTableModel ttm(this, QSqlDatabase::database(QString(DBName)));
             ttm.setTable(QString("specialities_sets"));
             ttm.setFilter(QString("spec_id = %3 and educ_form = '%2' and finance_form = '%1'")
-                          .arg((*(it++)).toString())
-                          .arg((*(it++)).toString())
-                          .arg((*(it++)).toString()));
+                          .arg((it++)->toString())
+                          .arg((it++)->toString())
+                          .arg((it++)->toString()));
             ttm.select();
 
             tr.setValue("set_id",ttm.record(0).value("set_id").toInt());
 
             tr.setValue("reg_num", ptm->record(ui->abiturView->currentIndex().row())
                         .value("reg_num"));
+            tr.setValue("priority", (it++)->toString());
             ppstm->setFilter(QString("reg_num = %1 AND set_id = %2")
                              .arg(tr.value("reg_num").toString())
                              .arg(pstm->record(ui->subTablesView->currentIndex().row())
@@ -451,7 +453,7 @@ void mAbiturTableWindow::copyRowButton() {
         case specialities:
             QMessageBox::warning(this, "Ошибка", "Данный тип записи нельзя копировать!");
             return;
-        case specialities:
+        case marks:
             QMessageBox::warning(this, "Ошибка", "Данный тип записи нельзя копировать!");
             return;
         }
@@ -556,7 +558,7 @@ void mAbiturTableWindow::changeSubTable (int index) {
 
         QList<QString> hsl; // headers string list
 
-        hsl << "Оценка" << "Дисциплина";
+        hsl << "Оценка" << "Дисциплина" << "Форма обучения" << "Вид обучения" << "Приоритет";
 
         QString ts;
         int i = 2;

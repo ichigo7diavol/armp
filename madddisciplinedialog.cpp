@@ -31,7 +31,8 @@ mAddDisciplineDialog::~mAddDisciplineDialog()
 void mAddDisciplineDialog::formCortege() {
     QList<QVariant> vl;
 
-    vl << ui->lineEdit->text();
+    vl << ui->lineEdit->text()
+       << ui->certCheckBox->isChecked();
 
     setVisible(false);
     emit cortegeFormed(vl);
@@ -40,4 +41,5 @@ void mAddDisciplineDialog::formCortege() {
 
 void mAddDisciplineDialog::fillCortege(const QSqlRecord & rec) {
     ui->lineEdit->setText(rec.value("name").toString());
+    ui->certCheckBox->setChecked(rec.value("is_cert").toBool());
 }

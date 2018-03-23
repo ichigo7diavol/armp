@@ -46,6 +46,7 @@ otherTablesWindow::otherTablesWindow(QWidget *parent,
         ui->otherTablesSubView->setVisible(false);
 
         ptm->setHeaderData(1, Qt::Horizontal, "Наименование дисциплины");
+        ptm->setHeaderData(2, Qt::Horizontal, "Находится в аттестате");
         }
         break;
     case benefits: {
@@ -219,7 +220,8 @@ void otherTablesWindow::addRow(QList<QVariant> & vl) {
         switch (ct) {
         case disciplines: {
             tr.setGenerated(0, false);
-            tr.setValue("name", it->toString());
+            tr.setValue("name", (it++)->toString());
+            tr.setValue("is_cert", (it++)->toString());
         }
         break;
         case benefits: {
@@ -374,7 +376,8 @@ void otherTablesWindow::editRow(QList<QVariant> & vl) {
         switch (ct) {
         case disciplines: {
             tr.setGenerated(0, false);
-            tr.setValue("name", it->toString());
+            tr.setValue("name", (it++)->toString());
+            tr.setValue("is_cert", (it++)->toString());
         }
         break;
         case benefits: {
@@ -425,7 +428,7 @@ void otherTablesWindow::deleteRowButton() {
 
     if (f) {
         ppstm->setFilter(QString("spec_id = %1 AND discipline_id = %2")
-                        .arg(pstm->record(ui->otherTablesView->currentIndex().row())
+                        .arg(pstm->record(ui->otherTablesSubView->currentIndex().row())
                              .value("spec_id").toString())
                          .arg(pstm->record(ui->otherTablesSubView->currentIndex().row())
                               .value("discipline_id").toString()));

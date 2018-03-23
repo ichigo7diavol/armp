@@ -44,10 +44,12 @@ mAddSpecDialog::mAddSpecDialog(QWidget *parent) :
 
 void mAddSpecDialog::formCortege() {
     QList <QVariant> tmp;
-    tmp << pstm->record(ui->specComboBox->currentIndex()).value("set_id")
+    tmp << pstm->record(ui->specComboBox->currentIndex()).value("spec_id").toInt()
         << ui->educFormComboBox->currentText()
-        << ui->financeFormComboBox->currentText();
+        << ui->financeFormComboBox->currentText()
+        << ui->prioritySpinBox->value();
 
+    qDebug() << tmp;
     setVisible(false);
     emit cortegeFormed(tmp);
     close();
@@ -58,6 +60,7 @@ void mAddSpecDialog::fillCortege(const QSqlRecord & rec) {
     ui->specComboBox->setCurrentText(rec.value(2).toString());
     ui->educFormComboBox->setCurrentText(rec.value(4).toString());
     ui->financeFormComboBox->setCurrentText(rec.value(5).toString());
+    ui->prioritySpinBox->setValue(rec.value("priority").toInt());
 }
 
 mAddSpecDialog::~mAddSpecDialog()

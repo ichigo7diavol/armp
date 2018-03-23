@@ -52,7 +52,7 @@
         <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
-        <string>Зачислен</string>
+        <string>Ходил на курсы</string>
        </property>
       </widget>
      </item>

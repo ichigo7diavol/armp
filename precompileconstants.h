@@ -40,7 +40,7 @@
 #define DefF_IsSPO       "is_first_spo"
 #define DefF_IsProc      "is_data_proc_agreed"
 #define DefF_Note        "note"
-#define DefF_IsEnlstd    "is_enlisted"
+#define DefF_IsEnlstd    "is_courses"
 #define DefF_SetId       "set_id"
 #define DefF_Gender      "gender"
 #define DefF_EducLvl     "educ_lvl"
