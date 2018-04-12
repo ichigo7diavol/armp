@@ -153,6 +153,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>HostEdit</tabstop>
+  <tabstop>PortEdit</tabstop>
+  <tabstop>BDNameEdit</tabstop>
+  <tabstop>UserNameEdit</tabstop>
+  <tabstop>PasswordEdit</tabstop>
+  <tabstop>ConnectButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

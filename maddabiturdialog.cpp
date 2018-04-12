@@ -39,6 +39,12 @@ mAddAbiturDialog::mAddAbiturDialog(QWidget *parent) :
 
     this->connect(ui->cancelPushButton, SIGNAL(clicked(bool)), SLOT(reject()));
     this->connect(ui->okPushButton, SIGNAL(clicked(bool)), SLOT(formCortege()));
+
+    ui->benLabel->setVisible(false);
+    ui->privilegeComboBox->setVisible(false);
+
+    ui->avgLabel->setVisible(false);
+    ui->avgScoreLineEdit->setVisible(false);
 }
 
 mAddAbiturDialog::~mAddAbiturDialog() {
@@ -65,7 +71,8 @@ void mAddAbiturDialog::formCortege() {
        << ui->secNameLineEdit->text() << ui->nameLineEdit->text()
        << ui->midNameLineEdit->text() << ui->birthDateEdit->text()
        << ui->citizenshipLineEdit->text() << ui->phoneLineEdit->text()
-       << ui->mailLineEdit->text() << ui->avgScoreLineEdit->text().toFloat()
+       << ui->mailLineEdit->text()
+       //<< ui->avgScoreLineEdit->text().toFloat()
        << pbcbm->record(ui->privilegeComboBox->currentIndex()).value("id")
        << ui->dormitoryCheckBox->isChecked()
        << ui->enlistedCheckBox->isChecked() << ui->genderComboBox->currentText()
@@ -86,28 +93,29 @@ void mAddAbiturDialog::fillCortege(const QSqlRecord && cor, QVector<int> & sci) 
   char i = 0;
 
   //ui->regLineEdit->setText(cor.value(0).toString());
-  ui->regDateEdit->setDate(cor.value(sci[i++]).toDate());
-  ui->secNameLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->nameLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->midNameLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->birthDateEdit->setDate(cor.value(sci[i++]).toDate());
-  ui->citizenshipLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->phoneLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->mailLineEdit->setText(cor.value(sci[i++]).toString());
-  ui->avgScoreLineEdit->setText(cor.value(sci[i++]).toString());
+  ui->regDateEdit->setDate(cor.value("reg_date").toDate());
+  ui->secNameLineEdit->setText(cor.value("sec_name").toString());
+  ui->nameLineEdit->setText(cor.value("name").toString());
+  ui->midNameLineEdit->setText(cor.value("mid_name").toString());
+  ui->birthDateEdit->setDate(cor.value("birth_date").toDate());
+  ui->citizenshipLineEdit->setText(cor.value("citizenship").toString());
+  ui->phoneLineEdit->setText(cor.value("phone_number").toString());
+  ui->mailLineEdit->setText(cor.value("email").toString());
+  i++;
+  //ui->avgScoreLineEdit->setText(cor.value(sci[i++]).toString());
 
-  ui->privilegeComboBox->setCurrentText(cor.value(sci[i++]).toString());
+  //ui->privilegeComboBox->setCurrentText(cor.value("sec_name").toString());
 
-  ui->dormitoryCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->enlistedCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->genderComboBox->setCurrentText(cor.value(sci[i++]).toString());
-  ui->eduLvlComboBox->setCurrentText(cor.value(sci[i++]).toString());
-  ui->regAdrTextEdit->setText(cor.value(sci[i++]).toString());
-  ui->liveAdrTextEdit->setText(cor.value(sci[i++]).toString());
-  ui->endYearSpinBox->setValue(cor.value(sci[i++]).toInt());
-  ui->rulesAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->dateAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->firstSPOCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->procAgreeCheckBox->setChecked(cor.value(sci[i++]).toBool());
-  ui->noteTextEdit->setText(cor.value(sci[i++]).toString());
+  ui->dormitoryCheckBox->setChecked(cor.value("is_dormitory").toBool());
+  ui->enlistedCheckBox->setChecked(cor.value("is_courses").toBool());
+  ui->genderComboBox->setCurrentText(cor.value("gender").toString());
+  ui->eduLvlComboBox->setCurrentText(cor.value("educ_lvl").toString());
+  ui->regAdrTextEdit->setText(cor.value("reg_adr").toString());
+  ui->liveAdrTextEdit->setText(cor.value("live_adr").toString());
+  ui->endYearSpinBox->setValue(cor.value("end_educ_year").toInt());
+  ui->rulesAgreeCheckBox->setChecked(cor.value("is_rules").toBool());
+  ui->dateAgreeCheckBox->setChecked(cor.value("is_date").toBool());
+  ui->firstSPOCheckBox->setChecked(cor.value("is_first_spo").toBool());
+  ui->procAgreeCheckBox->setChecked(cor.value("is_proc").toBool());
+  ui->noteTextEdit->setText(cor.value("note").toString());
 }

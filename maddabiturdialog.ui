@@ -393,7 +393,7 @@
       </widget>
      </item>
      <item row="19" column="1">
-      <widget class="QLabel" name="label_26">
+      <widget class="QLabel" name="avgLabel">
        <property name="text">
         <string>Средний балл</string>
        </property>
@@ -403,7 +403,7 @@
       </widget>
      </item>
      <item row="20" column="1">
-      <widget class="QLabel" name="label_27">
+      <widget class="QLabel" name="benLabel">
        <property name="text">
         <string>Льгота</string>
        </property>

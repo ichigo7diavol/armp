@@ -28,7 +28,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
 
     pptm = new QSqlTableModel(this, QSqlDatabase::database(QString(DBName)));
     pptm->setEditStrategy(QSqlTableModel::OnRowChange);
-    pptm->setTable("entrants_v");
+    pptm->setTable("entrants");
     pptm->select();
 
     QVector <QString> cfs; // columns for showing
@@ -39,7 +39,7 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
 
     cfh << DefF_RegNum << DefF_RegAdr << DefF_LivAdr << DefF_EndEdYear
         << DefF_IsRules << DefF_IsDate << DefF_IsSPO
-        << DefF_IsProc << DefF_Note << DefF_SetId;
+        << DefF_IsProc << DefF_Note << DefF_SetId << DefF_EntrantsBenFAtr;
 
     // reg_adr, live_adr, end_educ_year, is_rules_agreed, is_date_agreed, is_first_spo, is_data_proc_agreed,
     // note (скрытые столбцы)
@@ -50,9 +50,12 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
        << DefF_SecName << DefF_Name
        << DefF_MidName << DefF_BirthDate
        << DefF_CitShip << DefF_PhonNum
-       << DefF_Email << DefF_AvgScr
+       << DefF_Email
+       //<< DefF_AvgScr
        << DefF_EntrantsBenFAtr << DefF_IsDorm
-       << DefF_IsEnlstd << DefF_Gender
+       //<< DefF_IsEnlstd
+       << "is_courses"
+       << DefF_Gender
        << DefF_EducLvl
 
        << DefF_RegAdr << DefF_LivAdr
@@ -63,7 +66,10 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     QList<QString> hsl; // headers string list
 
     hsl << "Дата регистрации" << "Фамилия" << "Имя" << "Отчество" << "Дата рождения" << "Гражданство" << "Номер телефона"
-        << "Email" << "Средний балл" << "Льгота" << "Необходимость в общежитии" << "Слушатель курсов"
+        << "Email"
+        //<< "Средний балл"
+        //<< "Льгота"
+        << "Необходимость в общежитии" << "Нуждается в общежитии" << "Слушатель курсов"
         << "Пол" << "Уровень образования";
 
     QString ts;
@@ -80,6 +86,8 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
 
     int i = 0;
     foreach (ts, hsl) { ptm->setHeaderData(sci[i++], Qt::Horizontal, ts); }
+
+    ptm->setHeaderData(ptm->fieldIndex("avg_score"), Qt::Horizontal, "Средний балл");
 
     QFont tf(ui->abiturView->horizontalHeader()->font());
     tf.setPointSize(8);
@@ -105,6 +113,31 @@ mAbiturTableWindow::mAbiturTableWindow(QWidget *parent) :
     tableSwitcher->setCurrentIndex(2);
 
     qDebug() << "mAbiturTableWindow created!";
+
+    ui->toolBar->addSeparator();
+    searchLabel = new QLabel(0);
+    searchLabel->setText("Поиск");
+    ui->toolBar->addWidget(searchLabel);
+    searchLineEdit = new QLineEdit;
+    searchLineEdit->setMaximumWidth(256);
+    ui->toolBar->addWidget(searchLineEdit);
+    QObject::connect(searchLineEdit, SIGNAL(textChanged(QString)),
+                     this, SLOT(search()));
+    delFilter = new QPushButton;
+    delFilter->setText("Обнулить поиск");
+    QObject::connect(delFilter, SIGNAL(clicked(bool)),
+                     this, SLOT(delSearch()));
+    ui->toolBar->addWidget(delFilter);
+}
+
+void mAbiturTableWindow::search() {
+    ptm->setFilter(QString("sec_name ~ '%1' OR name ~ '%1' OR mid_name ~ '%1'").arg(searchLineEdit->text()));
+    ptm->select();
+}
+
+void mAbiturTableWindow::delSearch() {
+    ptm->setFilter("");
+    ptm->select();
 }
 
 mAbiturTableWindow::~mAbiturTableWindow()
@@ -135,8 +168,10 @@ void mAbiturTableWindow::addRowButton() {
                 tmp = new mAddSpecDialog;
                 break;
             case marks:
-                tmp = new mAddAbiturMarkDialog;
-                break;
+                QMessageBox::warning(0, "Ошибка", "Для данного типа записи используйте кнопку редактирования!");
+                return;
+                //tmp = new mAddAbiturMarkDialog;
+                //break;
             }
 
         this->connect(tmp, SIGNAL(cortegeFormed(QList<QVariant>&)), SLOT(addRow(QList<QVariant>&)));
@@ -223,6 +258,14 @@ void mAbiturTableWindow::addRow(QList <QVariant> & lv) {
     if ((f ? ppstm : pptm)->insertRecord(-1,tr)) {
         QMessageBox::information(this, "Добавление строки", "Добавление строки прошло успешно");
         (f ? pstm : ptm)->select();
+        if (f && swt == marks) {
+            int tmpC = ui->subTablesView->currentIndex().column();
+            int tmpR = ui->subTablesView->currentIndex().row();
+            ptm->select();
+
+            ui->abiturView->selectRow(tmpC);
+            ui->abiturView->selectColumn(tmpR);
+        }
     }
     else {
         QMessageBox::warning(this, "Добавление строки", "Введенные данные были некорректны!");
@@ -289,7 +332,7 @@ void mAbiturTableWindow::editRowButton() {
 
     bool f = this->focusWidget() != ui->abiturView;
 
-    if (f ? pstm->rowCount() == 0 : pptm->rowCount() == 0) {
+    if ((f ? (pstm->rowCount() == 0) && (swt != marks) : pptm->rowCount() == 0)) {
         return;
     }
 
@@ -311,8 +354,8 @@ void mAbiturTableWindow::editRowButton() {
             ((mAddSpecDialog*)tmp)->fillCortege(pstm->record(ui->subTablesView->currentIndex().row()));
             break;
         case marks:
-            tmp = new mAddAbiturMarkDialog;
-            ((mAddAbiturMarkDialog*)tmp)->fillCortege(pstm->record(ui->subTablesView->currentIndex().row()));
+            tmp = new mAddAbiturMarkDialog(0, ptm->record(ui->abiturView->currentIndex().row()).value("reg_num").toInt());
+            //((mAddAbiturMarkDialog*)tmp)->fillCortege(ptm->record(ui->abiturView->currentIndex().row()).value("reg_num").toInt());
             break;
         }
 
@@ -325,6 +368,10 @@ void mAbiturTableWindow::editRowButton() {
     this->connect(tmp, SIGNAL(cortegeFormed(QList<QVariant>&)), SLOT(editRow(QList<QVariant>&)));
 
     tmp->exec();
+    if (swt) {
+        ptm->select();
+        pstm->select();
+    }
 }
 
 void mAbiturTableWindow::editRow(QList <QVariant> & lv) {

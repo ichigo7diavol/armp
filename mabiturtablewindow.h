@@ -6,6 +6,9 @@
 #include <QtSql>
 #include <QtPrintSupport/QPrinter>
 #include <QPainter>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPushButton>
 
 #include "maddspecdialog.h"
 #include "maddabiturdocsdialog.h"
@@ -41,6 +44,9 @@ public slots:
 
     void print();
 
+    void search();
+    void delSearch();
+
 private:
     Ui::mAbiturTableWindow *ui; // ui
     QSqlRelationalTableModel * ptm; // ptr to main table model
@@ -62,6 +68,10 @@ private:
 
     QVector <QString> shci; // specs
     QVector <QString> ssci;
+
+    QLineEdit * searchLineEdit;
+    QLabel * searchLabel;
+    QPushButton * delFilter;
 
     enum sunWinType { none = -1, exams = 0, documents, specialities, marks } swt;
 };

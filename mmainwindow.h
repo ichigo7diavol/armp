@@ -8,9 +8,14 @@
 #include <QtSql>
 #include <QMessageBox>
 #include <QStringList>
+#include <QFileDialog>
+#include <QPrinter>
+#include <QPdfWriter>
+#include <QPrinter>
 
 #include "mabiturtablewindow.h"
 #include "othertableswindow.h"
+#include "mestablishmenteditdialog.h"
 
 namespace Ui {
 class mMainWindow;
@@ -27,6 +32,9 @@ public:
 private:
     Ui::mMainWindow * ui;
 
+    enum educ_typ {och, zch};
+    enum educ_form {buj, com};
+
 public slots:
     void openAbiturientsTable ();
     void openDisciplineTable();
@@ -34,6 +42,9 @@ public slots:
     void openSpecialitiesSetsTable();
     void openBenefitsTable();
     void openDocumentTypesTable();
+    void startRange();
+    void printOrder(educ_typ typ, educ_form form, QString path);
+    void openEstablishmentDialog();
 };
 
 #endif // MMAINWINDOW_H

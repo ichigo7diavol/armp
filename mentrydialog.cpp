@@ -31,6 +31,9 @@ void mEntryDialog::dbConnect ()
             QMessageBox::critical(this, "Ошибка", DBCreationError);
             exit(1);
         }
+    }
+    else if (db.isOpen())
+        return;
 
 #ifdef ARM_DEBUG
         db.setHostName(DefIpHost);
@@ -46,11 +49,12 @@ void mEntryDialog::dbConnect ()
         db.setPort(ui->PortEdit->text().toInt());
 #endif
 
-    }
-
     if (!db.open()) {
 
         QMessageBox::warning(this, "Ошибка", QString(ConnectionError));
+        qDebug() << ui->HostEdit->text() << ui->BDNameEdit->text()
+                 << ui->UserNameEdit->text() << ui->PasswordEdit->text()
+                 << ui->PortEdit->text().toInt();
     }
     else {
         accept();

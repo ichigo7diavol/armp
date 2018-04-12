@@ -39,7 +39,8 @@ SOURCES += \
     maddspecialitiessetsdialog.cpp \
     maddspecialitiesdialog.cpp \
     mspecsetdiscadddialog.cpp \
-    maddabiturmarkdialog.cpp
+    maddabiturmarkdialog.cpp \
+    mestablishmenteditdialog.cpp
 
 HEADERS += \
         mmainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     maddspecialitiessetsdialog.h \
     maddspecialitiesdialog.h \
     mspecsetdiscadddialog.h \
-    maddabiturmarkdialog.h
+    maddabiturmarkdialog.h \
+    mestablishmenteditdialog.h
 
 FORMS += \
         mmainwindow.ui \
@@ -74,7 +76,8 @@ FORMS += \
     maddspecialitiessetsdialog.ui \
     maddspecialitiesdialog.ui \
     mspecsetdiscadddialog.ui \
-    maddabiturmarkdialog.ui
+    maddabiturmarkdialog.ui \
+    mestablishmenteditdialog.ui
 
 INCLUDEPATH += "C:\include" \
 #    "C:\Users\Arhon\Documents\ArmPriemka\include\QtXlsx"
