@@ -1,6 +1,6 @@
 #ifndef PRECOMPILECONSTANTS_H
 #define PRECOMPILECONSTANTS_H
-//#define ARM_DEBUG
+#define ARM_DEBUG
 
 #define DBName "ARMDB"
 #define ConnectionError "Ошибка подключения к БД, проверьте введенные данные и подключение к сети."

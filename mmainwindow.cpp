@@ -50,10 +50,6 @@ mMainWindow::mMainWindow(QWidget *parent) :
     this->connect(pa, SIGNAL(triggered(bool)), SLOT(openDisciplineTable()));
     lpa << pa;
 
-//    pa = new QAction("Льготы");
-//    this->connect(pa, SIGNAL(triggered(bool)), SLOT(openBenefitsTable()));
-//    lpa << pa;
-
     pa = new QAction("Специальности");
     this->connect(pa, SIGNAL(triggered(bool)), SLOT(openSpecialitiesTable()));
     lpa << pa;
@@ -72,8 +68,7 @@ mMainWindow::mMainWindow(QWidget *parent) :
     // ПУНКТ ДОКУМЕНТЫ
 
     pm = ui->menuBar->addMenu("Документы");
-    //pa = new QAction("Экзаменационные ведомости");
-    //lpa << pa;
+
     pa = new QAction("Произвести ранжирование");
     this->connect(pa, SIGNAL(triggered(bool)), SLOT(startRange()));
     lpa << pa;
@@ -82,13 +77,6 @@ mMainWindow::mMainWindow(QWidget *parent) :
     lpa.clear();
 
     // ПУНКТ СЕРВИС
-
-//    pm = ui->menuBar->addMenu("Сервис");
-//    pa = new QAction("Параметры");
-//    lpa << pa;
-
-//    pm->addActions(lpa);
-//    lpa.clear();
 
     // ПУНКТ ОКНО
 
@@ -179,8 +167,6 @@ void mMainWindow::openSpecialitiesTable() {
         tmp->setWindowTitle(QString("Специальности"));
 
         tmp->show();
-
-//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "otherTablesWindow[Specialities] is already opened!";
@@ -196,8 +182,6 @@ void mMainWindow::openSpecialitiesSetsTable() {
         tmp->setWindowTitle(QString("Контрольные цифры"));
 
         tmp->show();
-
-//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "otherTablesWindow[SpecialitiesSets] is already opened!";
@@ -213,8 +197,6 @@ void mMainWindow::openDocumentTypesTable() {
         tmp->setWindowTitle(QString("Документы"));
 
         tmp->show();
-
-//        qDebug() << "mAbiturTableWindow created!";
     }
     else {
         qDebug() << "otherTablesWindow[DocumentTypes] is already opened!";
@@ -282,7 +264,6 @@ void mMainWindow::printOrder(educ_typ typ, educ_form form, QString path) {
     tmpR = QRect(RectM,2750,pdfWriter.width() - RectM*2,300);
 
     p.drawText(tmpR, Qt::AlignCenter  | Qt::TextWordWrap , tmp2);
-    //p.drawRect(tmpR);
 
     tmpF.setPointSize(14);
     tmpF.setBold(false);
@@ -454,30 +435,37 @@ void mMainWindow::printOrder(educ_typ typ, educ_form form, QString path) {
         p.drawText(tmpR, Qt::AlignHCenter | Qt::AlignBottom, tmp2);
 
         int ent_count = etm->rowCount();
-        int  rectHM = 2000;
+
+        // ширина столбца
+        int  rectHM = 1750;
 
         rectVM += tmpR.height();
 
         tmpF.setBold(true);
         p.setFont(tmpF);
 
-        tmpR = QRect(RectM, rectVM ,rectHM,300);
+        tmpR = QRect(RectM - 500, rectVM ,rectHM,300);
         tmp2 = QString("№ п/п");
         p.drawText(tmpR, Qt::AlignCenter, tmp2);
         p.drawRect(tmpR);
 
-        tmpR = QRect(RectM + rectHM * 1, rectVM ,rectHM,300);
+        tmpR = QRect(RectM - 500 + rectHM * 1, rectVM ,rectHM,300);
         tmp2 = QString("Фамилия");
         p.drawText(tmpR, Qt::AlignCenter, tmp2);
         p.drawRect(tmpR);
 
-        tmpR = QRect(RectM  + rectHM * 2, rectVM ,rectHM,300);
+        tmpR = QRect(RectM - 500 + rectHM * 2, rectVM ,rectHM,300);
         tmp2 = QString("Имя");
         p.drawText(tmpR, Qt::AlignCenter, tmp2);
         p.drawRect(tmpR);
 
-        tmpR = QRect(RectM  + rectHM * 3, rectVM ,rectHM,300);
+        tmpR = QRect(RectM - 500  + rectHM * 3, rectVM ,rectHM,300);
         tmp2 = QString("Отчество");
+        p.drawText(tmpR, Qt::AlignCenter, tmp2);
+        p.drawRect(tmpR);
+
+        tmpR = QRect(RectM - 500  + rectHM * 4, rectVM ,rectHM,300);
+        tmp2 = QString("Средний балл");
         p.drawText(tmpR, Qt::AlignCenter, tmp2);
         p.drawRect(tmpR);
 
@@ -485,6 +473,9 @@ void mMainWindow::printOrder(educ_typ typ, educ_form form, QString path) {
         p.setFont(tmpF);
 
         int entc = 0;
+
+        etm->setSort(etm->record().indexOf("score"), Qt::AscendingOrder);
+        etm->select();
 
         while (ent_count--) {
             QApplication::processEvents();
@@ -511,30 +502,37 @@ void mMainWindow::printOrder(educ_typ typ, educ_form form, QString path) {
                 rectVM += tmpR.height();
             }
 
-            tmpR = QRect(RectM, rectVM ,rectHM,300);
+            tmpR = QRect(RectM - 500, rectVM ,rectHM,300);
             tmp2 = QString("%1")
                     .arg(++entc);
 
             p.drawText(tmpR, Qt::AlignCenter, tmp2);
             p.drawRect(tmpR);
 
-            tmpR = QRect(RectM + rectHM * 1, rectVM ,rectHM,300);
+            tmpR = QRect(RectM - 500 + rectHM * 1, rectVM ,rectHM,300);
             tmp2 = QString("%1")
                     .arg(etm->record(ent_count).value("sec_name").toString());
 
             p.drawText(tmpR, Qt::AlignCenter, tmp2);
             p.drawRect(tmpR);
 
-            tmpR = QRect(RectM  + rectHM * 2, rectVM ,rectHM,300);
+            tmpR = QRect(RectM - 500 + rectHM * 2, rectVM ,rectHM,300);
             tmp2 = QString("%1")
                     .arg(etm->record(ent_count).value("name").toString());
 
             p.drawText(tmpR, Qt::AlignCenter, tmp2);
             p.drawRect(tmpR);
 
-            tmpR = QRect(RectM  + rectHM * 3, rectVM ,rectHM,300);
+            tmpR = QRect(RectM - 500  + rectHM * 3, rectVM ,rectHM,300);
             tmp2 = QString("%1")
                     .arg(etm->record(ent_count).value("mid_name").toString());
+
+            p.drawText(tmpR, Qt::AlignCenter, tmp2);
+            p.drawRect(tmpR);
+
+            tmpR = QRect(RectM - 500  + rectHM * 4, rectVM ,rectHM,300);
+            tmp2 = QString("%1")
+                    .arg(etm->record(ent_count).value("score").toString());
 
             p.drawText(tmpR, Qt::AlignCenter, tmp2);
             p.drawRect(tmpR);
